@@ -53,7 +53,7 @@ global.historicalFleets = require(`${global.currentDir}/config/historicals.json`
 // Check if all ships in historical fleets stuff exist
 for (let fleet in historicalFleets) 
     for(let ship of historicalFleets[fleet])
-        if(Object.values(idtobasename).indexOf(ship) < 0) {
+        if(typeof ship == 'string' ? Object.values(idtobasename).indexOf(ship) < 0 : idtobasename[ship] == undefined) {
             console.warn(`\x1b[33m!!! Unknown ship ${ship} in ${fleet} historicals!\x1b[0m`);
         }
 

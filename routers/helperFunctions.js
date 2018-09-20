@@ -140,8 +140,9 @@ global.getHistoricalCount = (entry) => {
 
     for(let historicalName in historicalFleets) {
         let fleet = historicalFleets[historicalName];
-        stypeCount.fleet1[historicalName] = entry.fleet1.filter((ship) => fleet.indexOf(idtobasename[ship.id]||'?') >= 0).length;
-        stypeCount.fleet2[historicalName] = entry.fleet2.filter((ship) => fleet.indexOf(idtobasename[ship.id]||'?') >= 0).length;
+        let filter = (ship) => fleet.find((nameid) => typeof nameid == 'string' ? nameid == idtobasename[ship.id] : ship.id == nameid);
+        stypeCount.fleet1[historicalName] = entry.fleet1.filter(filter).length;
+        stypeCount.fleet2[historicalName] = entry.fleet2.filter(filter).length;
         stypeCount.all[historicalName] = stypeCount.fleet1[historicalName] + stypeCount.fleet2[historicalName];
     }
     return stypeCount;
