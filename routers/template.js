@@ -1,5 +1,5 @@
-exports.map = "42-5";
-exports.node = "D";
+exports.map = "world-mapnum";
+exports.node = "startingletter";
 exports.nodesToIgnore = [];
 exports.nodeColors = {
     //'A': '\x1b[42m\x1b[30m', // Green BG
@@ -11,6 +11,7 @@ exports.nodeColors = {
 exports.getType = (entry, edgeNames) => {
     let edge = edgeNames[1];
     let s = getStypeCount(entry).all;
+    // let h = getHistoricalCount(entry).all;
     let sc = getSpecialCombines(s);
     // let drumCount = getItemCount(entry, 75);
     // let drummedShipsCount = getShipWithItemCount(entry, 75);

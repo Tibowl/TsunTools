@@ -1,3 +1,4 @@
+// Loading of general data/functions.
 const fs = require('fs'),
     { Client } = require('pg')
 require('./routers/helperFunctions.js');
@@ -13,6 +14,19 @@ https://github.com/KC3Kai/kc3-translations/blob/master/data/en/stype.json`);
 if (!fs.existsSync(`${global.currentDir}/config/edges.json`)) {
     console.error(`Missing config/edges.json, grab them from:
 https://github.com/KC3Kai/KC3Kai/blob/update-cumulative/src/data/edges.json`);
+    return;
+}
+
+if (!fs.existsSync(`${global.currentDir}/config/idtobasename.json`)) {
+    console.error(`Missing config/idtobasename.json, you can generate them with KC3 by executing:
+let remodels = {};
+Object.values(KC3Master.all_ships()).filter((s) => s.api_id < 700).forEach((s) => {remodels[s.api_id] = KC3Meta.shipName(KC3Master.ship(RemodelDb.originOf(s.api_id)).api_name)});
+copy(JSON.stringify(remodels,0,4));`);
+    return;
+}
+
+if(!fs.existsSync(`${global.currentDir}/config/historicals.json`)) {
+    console.error(`Missing config/historicals.json`);
     return;
 }
 
@@ -33,6 +47,18 @@ global.dblogin = require(`${global.currentDir}/config/dblogin.json`);
 global.stype = require(`${global.currentDir}/config/stype.json`);
 global.edges = require(`${global.currentDir}/config/edges.json`);
 
+global.idtobasename = require(`${global.currentDir}/config/idtobasename.json`);
+global.historicalFleets = require(`${global.currentDir}/config/historicals.json`);
+
+// Check if all ships in historical fleets stuff exist
+for (let fleet in historicalFleets) 
+    for(let ship of historicalFleets[fleet])
+        if(Object.values(idtobasename).indexOf(ship) < 0) {
+            console.warn(`\x1b[33m!!! Unknown ship ${ship} in ${fleet} historicals!\x1b[0m`);
+        }
+
+
+// Processing of user stuff
 if(process.argv.length <= 2) {
     console.log("Usage: node routing <router>");-
     console.log("Routers are .js files located in routers/*");
@@ -51,18 +77,18 @@ if(!map || !node) {
     return;
 }
 
-let edgesToNode = Object.keys(edges["World " + map]).filter((edge) => {
+let edgesFromNode = Object.keys(edges["World " + map]).filter((edge) => {
     let e = edges["World " + map][edge];
     return e[0] == node && !nodesToIgnore.includes(e[1])
 }).map((edge) => parseInt(edge));
 
-console.log(`Edges to ${map}-${node}: `, edgesToNode);
+console.log(`Edges from ${map} ${node}: `, edgesFromNode);
 
 const client = new Client(dblogin);
 client.connect();
 
 let startTime = new Date();
-client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' : 'eventworld'} WHERE map = $1 AND edgeid[array_length(edgeid, 1)] = ANY($2) ORDER BY id`, [map, edgesToNode], (err, data) => {
+client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' : 'eventworld'} WHERE map = $1 AND edgeid[array_length(edgeid, 1)] = ANY($2) ORDER BY id`, [map, edgesFromNode], (err, data) => {
     let endTime = new Date();
     if(err) {
         console.log(err);

@@ -35,12 +35,7 @@ global.advancedStypeCounter = (entry, stypeCount, edge) => {
         rs[edge] = (rs[edge]||0) + 1;
     }
 }
-global.getSpecialCombines = (stypeCount) => {
-    let specialCount = {};
-    for(let type in specialCombines)
-        specialCount[type] = specialCombines[type].map((type) => stypeCount[type]).reduce((a,b) => a+b);
-    return specialCount;
-}
+
 /*
 Get unordered fleet composition, order of fleet doesn't matter
 Pass #getStypeCount().XXX through
@@ -82,6 +77,17 @@ global.getStypeCount = (entry) => {
 }
 
 /*
+Convert stypeCount of getStypeCount to special combines, these are special presets for quick use. 
+(Example: aBB = BB + FBB + BBV)
+*/
+global.getSpecialCombines = (stypeCount) => {
+    let specialCount = {};
+    for(let type in specialCombines)
+        specialCount[type] = specialCombines[type].map((type) => stypeCount[type]).reduce((a,b) => a+b);
+    return specialCount;
+}
+
+/*
 Get count of ships that have a specific item
 */
 global.getShipWithItemCount = (entry, id) => {
@@ -107,6 +113,27 @@ Get difficulty, returns either '?' when unknown, otherwise '丁', '丙', '乙' o
 */
 global.getDifficulty = (entry) => {
     return ['?', '丁', '丙', '乙', '甲'][entry.difficulty||0];
+}
+
+/*
+Count historicals of an entry, returns something like stypecounter
+*/
+global.getHistoricalCount = (entry) => {
+    let stypeCount = {"all": {}, "fleet1": {}, "fleet2": {}};
+    entry.fleet1.concat(entry.fleet2).forEach((ship) => {
+        if(idtobasename[ship.id] == undefined) {
+            console.warn(`\x1b[33m!! Unknown base name for ship id ${ship.id} (${ship.name})\x1b[0m`);
+            idtobasename[ship.id] = "?"; // Prevent duplicate lines
+        }
+    });
+
+    for(let historicalName in historicalFleets) {
+        let fleet = historicalFleets[historicalName];
+        stypeCount.fleet1[historicalName] = entry.fleet1.filter((ship) => fleet.indexOf(idtobasename[ship.id]||'?') >= 0).length;
+        stypeCount.fleet2[historicalName] = entry.fleet2.filter((ship) => fleet.indexOf(idtobasename[ship.id]||'?') >= 0).length;
+        stypeCount.all[historicalName] = stypeCount.fleet1[historicalName] + stypeCount.fleet2[historicalName];
+    }
+    return stypeCount;
 }
 
 global.pad = (n, width = 3, z = ' ') => {
