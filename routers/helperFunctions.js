@@ -59,6 +59,17 @@ global.getOrderedFleetComp = (entry) => {
 }
 
 /*
+Get ordered fleet composition, order of fleet matters
+Pass full entry through. (requires fleet1 (and fleet2 if available))
+Example return: "朝潮改二 Nelson改 満潮改二 荒潮改二 山雲改 夕雲改"
+*/
+global.getOrderedShipComp = (entry) => {
+    if(entry.fleet2 && entry.fleet2.length)
+        return entry.fleet1.map((ship) => ship.name).join(" ") + " | " + entry.fleet2.map((ship) => ship.name).join(" ");
+    return entry.fleet1.map((ship) => ship.name).join(" ");
+}
+
+/*
 Returns object with counts of stype's
 Returns 3 objects with each count of every stype.
 - fleet1: Main fleet

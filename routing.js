@@ -122,6 +122,10 @@ client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' :
         if(!entry.fleet1.length)
             continue;
 
+        // Filter out flee'ed ships
+        entry.fleet1 = entry.fleet1.filter((ship) => !ship.flee);
+        entry.fleet2 = entry.fleet2.filter((ship) => !ship.flee);
+
         // Count totals
         let rs = routing["all"]["all"];
         rs[edgeNames[1]] = (rs[edgeNames[1]]||0) + 1;

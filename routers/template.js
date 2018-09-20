@@ -43,6 +43,7 @@ exports.getType = (entry, edgeNames) => {
 
     // Figure out unkown offrouting
     //if(edge == 'X' && type == "2 DD") console.log(/*entry, */getOrderedFleetComp(entry) + " -> " + edge) 
+    //if(edge == 'X' && type == "2 DD") console.log(/*entry, */getOrderedShipComp(entry) + " -> " + edge) 
     //if(type == '0 ships') console.log(JSON.stringify(entry))
     return type;
 }
