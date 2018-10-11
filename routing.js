@@ -67,7 +67,7 @@ if(process.argv.length <= 2) {
     return;
 }
 
-let routing = {"total": {}, "other": {"other": {}}, "all": {"all": {}}};
+global.routing = {"total": {}, "other": {"other": {}}, "all": {"all": {}}};
 let usingColors = ['\x1b[36m', '\x1b[33m', '\x1b[35m', '\x1b[32m', '\x1b[37m', '\x1b[46m', '\x1b[41m']
 
 let {map, node, nodesToIgnore, nodeColors, getType} = require(`${global.currentDir}/routers/${process.argv[2]}`);
