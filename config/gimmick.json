@@ -1,0 +1,40 @@
+{
+    "map": "42-3",
+    "node": "M",
+    "type": "basic",
+    "enemy": {
+        "id": [1701,1704,1699,1700,1702,1703],
+        "action": "include",
+        "path": "enemy.id"
+    },
+    "excludeEQ": {
+        "id": [],
+        "action": "exclude",
+        "path": "ship.equip"
+    },
+    "includeEQ": {
+        "id": [],
+        "action": "include",
+        "path": "ship.equip"
+    },
+    "includeAllEQ": {
+        "id": [],
+        "action": "includeAll",
+        "path": "ship.equip"
+    },
+    "includeShip": {
+        "id": [],
+        "action": "include",
+        "path": "ship.id"
+    },
+    "excludeShip": {
+        "id": [],
+        "action": "exclude",
+        "path": "ship.id"
+    },
+    "debuffed": false,
+    "precapMult": 0,
+    "precapAdd": 0,
+    "postcapMult": 0,
+    "postcapAdd": 0
+}
