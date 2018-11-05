@@ -1,0 +1,18 @@
+[
+  {
+    "shipId": 576,
+    "lvlRange": [90, 99],
+    "moraleRange": [0, 52],
+    "equipment": [289, 300]
+  }, {
+    "shipId": 576,
+    "lvlRange": [90, 99],
+    "moraleRange": [0, 52],
+    "equipment": [183]
+  }, {
+    "shipId": 571,
+    "lvlRange": [90, 99],
+    "moraleRange": [0, 52],
+    "equipment": [9]
+  }
+]
