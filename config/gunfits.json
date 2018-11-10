@@ -1,24 +1,66 @@
 [
   {
-    "testName": "NelsonK35.6cmDazzleAll",
+    "testName": "NelsonK46cmOrangeRed",
     "active": true,
     "shipId": 576,
-    "lvlRange": [90, 99],
-    "moraleRange": [0, 52],
-    "equipment": [289, 300]
-  }, {
-    "testName": "NelsonK16i+GFCSAll",
-    "active": true,
-    "shipId": 576,
-    "lvlRange": [90, 99],
-    "moraleRange": [0, 52],
-    "equipment": [183]
-  }, {
-    "testName": "Nelson46cmAll",
-    "active": false,
-    "shipId": 571,
-    "lvlRange": [90, 99],
-    "moraleRange": [0, 52],
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
     "equipment": [9]
+  },
+  {
+    "testName": "NelsonKP46cmOrangeRed",
+    "active": true,
+    "shipId": 576,
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
+    "equipment": [117]
+  },  
+  {
+    "testName": "WarspiteK38cmQuadKOrangeRed",
+    "active": true,
+    "shipId": 364,
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
+    "equipment": [246]
+  },
+  {
+    "testName": "WarspiteK16inch+FCROrangeRed",
+    "active": true,
+    "shipId": 364,
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
+    "equipment": [300]
+  },
+  {
+    "testName": "NagatoK241cmK2OrangeRed",
+    "active": true,
+    "shipId": 541,
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
+    "equipment": [290]
+  },
+  {
+    "testName": "IseK246cmKOrangeRed",
+    "active": true,
+    "shipId": 541,
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
+    "equipment": [276]
+  },
+  {
+    "testName": "OoyodoK15.5OrangeRed",
+    "active": true,
+    "shipId": 321,
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
+    "equipment": [5]
+  },
+  {
+    "testName": "OoyodoK15.2x2OrangeRed",
+    "active": true,
+    "shipId": 321,
+    "lvlRange": [81, 99],
+    "moraleRange": [0, 32],
+    "equipment": [65, 65]
   }
 ]
