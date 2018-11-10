@@ -1,15 +1,21 @@
 [
   {
+    "testName": "NelsonK35.6cmDazzleAll",
+    "active": true,
     "shipId": 576,
     "lvlRange": [90, 99],
     "moraleRange": [0, 52],
     "equipment": [289, 300]
   }, {
+    "testName": "NelsonK16i+GFCSAll",
+    "active": true,
     "shipId": 576,
     "lvlRange": [90, 99],
     "moraleRange": [0, 52],
     "equipment": [183]
   }, {
+    "testName": "Nelson46cmAll",
+    "active": false,
     "shipId": 571,
     "lvlRange": [90, 99],
     "moraleRange": [0, 52],
