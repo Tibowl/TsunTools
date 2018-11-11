@@ -24,6 +24,7 @@ if (!fs.existsSync(`${global.currentDir}/config/gunfits.json`)) {
 
 const dblogin = require(`${global.currentDir}/config/dblogin.json`);
 const tests = require(`${global.currentDir}/config/gunfits.json`);
+global.eqdata = require(`${global.currentDir}/damage/kcEQDATA.js`)['EQDATA'];
 
 function checkTest() {
     if(testId == undefined)
@@ -59,8 +60,12 @@ function percentage(p, d = 3) {
 const getMoraleMod = morale => {
     const key = [19,33,49,100].findIndex(foo => morale <= foo);
     return [0.5,0.8,1,1.2][key];
-}
-
+};
+const getSpAttackMod = (time, spAttack) => (time == 'Day' ?
+    { 0: 1, 2: 1.1, 3: 1.3, 4: 1.5, 5: 1.3, 6: 1.2 } :
+    { 0: 1, 1: 1.1, 2: 1.1, 3: 1.5, 4: 1.65, 5: 1.5 }
+)[spAttack] || 1;
+const getEquipAcc = equipId => eqdata[equipId].ACC;
 
 
 if(process.argv.length <= 2) {
@@ -104,8 +109,7 @@ client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (er
     let entries = data.rows;
     console.log(`${entries.length} entries loaded in ${endTime.getTime() - startTime.getTime()}ms`)
     
-    // TODO calc equipAcc
-    let equipAcc = 0;
+    let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b));
     let avgBaseAcc = 0;
     for(let entry of entries) {
         const shipMorale = entry.ship.morale
@@ -114,9 +118,10 @@ client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (er
         cl[entry.api_cl]++;
         enemy[entry.enemy] = (enemy[entry.enemy] || 0) + 1;
         const moraleMod = getMoraleMod(shipMorale);
+        const spAttackMod = getSpAttackMod(time, entry.spAttackType);
         
         let lvl = entry.ship.lv, luck = entry.ship.luck;
-        let baseAcc = Math.floor((90 + 1.5 * Math.sqrt(luck) + 2 * Math.sqrt(lvl) + equipAcc) * moraleMod);
+        let baseAcc = Math.floor(((time == 'Day' ? 90 : 69) + 1.5 * Math.sqrt(luck) + 2 * Math.sqrt(lvl) + equipAcc) * moraleMod * spAttackMod);
         avgBaseAcc += baseAcc;
     }
 
@@ -134,14 +139,14 @@ client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (er
     
     let predictedAcc = (avgBaseAcc - averageEvas + 1) / 100;
 
-    console.log()
+    console.log();
     console.log(`==== Accuracy summary of test ${test.testName}${!morale ? '' : ` in ${morale} morale`} ====`);
-    console.log()
+    console.log();
     console.log(`Base rate: ${avgBaseAcc}, avg. evas: ${averageEvas.toFixed(1)}, predicted rate: ${percentage(predictedAcc, 2)}`);
-    console.log()
+    console.log();
     console.log(`Found ${samples} samples, CL0/CL1/CL2: ${cl.join("/")}`);
     console.log(`Hit rate ${percentage(hit / samples)}, std. error ${percentage(error(hit/samples, samples))}`);
-    console.log()
+    console.log();
     console.log(`Bounds: ${bounds(hit, samples).map(percentage).join(" ~ ")}`);
     console.log(`Theoretical difference: ${percentage((hit / samples) - predictedAcc, 2)} (Error bounds: ${bounds(hit, samples).reverse().map((p) => percentage(p - predictedAcc, 1)).join(" ~ ")})`);
 });
