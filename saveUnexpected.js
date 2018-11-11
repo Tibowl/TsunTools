@@ -1,6 +1,8 @@
 const fs = require('fs'),
     { Client } = require('pg')
 
+global.currentDir = __dirname;
+
 if (!fs.existsSync(`${global.currentDir}/config/dblogin.json`)) {
     console.error(`Missing database login information, 'config/dblogin.json' doesn't exist!
 Set contents to:

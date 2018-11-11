@@ -5,7 +5,8 @@
   "main": "routing.js",
   "repository": "Tibo442/TsunTools",
   "dependencies": {
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "readline-sync": "^1.4.9"
   },
   "devDependencies": {},
   "scripts": {

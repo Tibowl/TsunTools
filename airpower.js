@@ -19,7 +19,6 @@ Set contents to:
 
 global.dblogin = require(`${global.currentDir}/config/dblogin.json`);
 
-
 // Processing of user stuff
 if(process.argv.length <= 2) {
     console.log("Usage: node airpower <enemyid> <flag>");-
@@ -29,7 +28,6 @@ if(process.argv.length <= 2) {
 }
 
 global.airpower = {};
-let usingColors = ['\x1b[36m', '\x1b[33m', '\x1b[35m', '\x1b[32m', '\x1b[37m', '\x1b[46m', '\x1b[41m']
 
 const enemyid = process.argv[2];
 const searchFlag = process.argv[3];
