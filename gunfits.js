@@ -78,15 +78,23 @@ var testId = (process.argv.length > 2) ? process.argv[2] : undefined, test;
 while(!checkTest())
     testId = read.keyInSelect(tests.map((t) => `${t.testName}${t.active?" \x1b[32m[ACTIVE]\x1b[0m":""}`), "Test ");
 
-const time = (process.argv.length > 3) ? process.argv[2] : ["Day", "Night"][read.keyInSelect(["Day", "Night"], "Time: ")];
-if(["Day", "Night"].indexOf(time) < 0) return;
-const morale = (process.argv.length > 4) ? process.argv[3] : ["red", "orange", "green", "sparkled"][read.keyInSelect(["Red", "Orange", "Green", "Sparkled"], "Morale: ")];
+const time = (process.argv.length > 3) ? process.argv[3] : ["Day", "Night"][read.keyInSelect(["Day", "Night"], "Time: ")];
+if(["Day", "Night"].indexOf(time) < 0) {
+    console.log("Invalid time!");
+    return;
+}
+let morale = (process.argv.length > 4) ? process.argv[4] : ["red", "orange", "green", "sparkled"][read.keyInSelect(["Red", "Orange", "Green", "Sparkled"], "Morale: ")];
+if(["red", "orange", "green", "sparkled"].indexOf(morale) < 0) {
+    console.log("No morale, assuming any of test");
+    morale = "any";
+}
 
 const checkNum = {
-    red: [0, 19],
-    orange: [20, 32],
-    green: [33, 49],
-    sparkled: [50, 100]
+    red: [0, 28],
+    orange: [29, 32],
+    green: [33, 52],
+    sparkled: [53, 100],
+    any: [0, 100]
 }[morale];
 const checkMorale = (morale, checkNum) => morale >= checkNum[0] && morale <= checkNum[1];
 
@@ -111,6 +119,7 @@ client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (er
     
     let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b));
     let avgBaseAcc = 0;
+    let testers = [];
     for(let entry of entries) {
         const shipMorale = entry.ship.morale
         if ((morale && !checkMorale(shipMorale, checkNum)) || time != entry.time) { continue; }
@@ -123,6 +132,17 @@ client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (er
         let lvl = entry.ship.lv, luck = entry.ship.luck;
         let baseAcc = Math.floor(((time == 'Day' ? 90 : 69) + 1.5 * Math.sqrt(luck) + 2 * Math.sqrt(lvl) + equipAcc) * moraleMod * spAttackMod);
         avgBaseAcc += baseAcc;
+
+        let tester = testers.find((t) => t.id == entry.misc.id && t.name == entry.misc.name);
+        if(tester == undefined) {
+            tester = {
+                "name": entry.misc.name,
+                "id": entry.misc.id,
+                "cl": [0,0,0]
+            }
+            testers.push(tester);
+        }
+        tester.cl[entry.api_cl]++;
     }
 
     let samples = cl.reduce((a, b) => a + b), hit = cl[1] + cl[2];
@@ -135,10 +155,19 @@ client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (er
         "1505": 16,
         "1506": 16
     }
-    let averageEvas = Object.keys(enemy).map((id) => { evas[id] * enemy[id] }) / samples;
+    let averageEvas = Object.keys(enemy).map((id) => evas[id] * enemy[id]) / samples;
     
     let predictedAcc = (avgBaseAcc - averageEvas + 1) / 100;
 
+    testers.sort((a, b) => a.cl.reduce((a,b) => a+b) - b.cl.reduce((a,b) => a+b));
+    let topTesters = testers.slice(10);
+
+    console.log();
+    console.log(`==== Contributors for this test ====`);
+    console.log();
+    console.log(topTesters.map((t, idx) => `${idx + 1}) ${t.name}: samples: ${t.cl.reduce((a,b) => a+b)}, CL0/CL1/CL2: ${t.cl.join("/")}, hit bounds: ${bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(percentage).join(" ~ ")}`).join("\n"))
+    console.log();
+    console.log(`${testers.length} testers contributed`);
     console.log();
     console.log(`==== Accuracy summary of test ${test.testName}${!morale ? '' : ` in ${morale} morale`} ====`);
     console.log();
