@@ -24,24 +24,24 @@ if (!fs.existsSync(`${global.currentDir}/config/gunfits.json`)) {
 
 const dblogin = require(`${global.currentDir}/config/dblogin.json`);
 const tests = require(`${global.currentDir}/config/gunfits.json`);
-global.eqdata = require(`${global.currentDir}/damage/kcEQDATA.js`)['EQDATA'];
+const eqdata = require(`${global.currentDir}/damage/kcEQDATA.js`)['EQDATA'];
 
 function checkTest() {
-    if(testId == undefined)
+    if(testInput == undefined)
         return false;
     try {
-        if(parseInt(testId) < tests.length) {
-            if(parseInt(testId) < 0) {
+        if(parseInt(testInput) - 1 < tests.length) {
+            if(parseInt(testInput) - 1 < 0) {
                 process.exit(0)
                 return false;
             }
 
-            test = tests[parseInt(testId)];
+            test = tests[parseInt(testInput) - 1];
             return true;
         }
     } catch (e) {}
     
-    if(test = tests.find((t) => t.testName.toLowerCase() == testId.toLowerCase()))
+    if(test = tests.find((t) => t.testName.toLowerCase() == testInput.toLowerCase()))
         return true;
     return false;
 }
@@ -69,17 +69,17 @@ const getEquipAcc = equipId => eqdata[equipId].ACC;
 
 
 if(process.argv.length <= 2) {
-    console.log("Quick usage: node gunfits <test name OR id> <time: Day/Night> (morale: red/orange/green/sparkled)");
+    console.log("Quick usage: node gunfits <test name OR id> <time: Day/Yasen> (morale: red/orange/green/sparkled)");
     console.log("Example: node gunfit 1 Day orange");
 }
 
-var testId = (process.argv.length > 2) ? process.argv[2] : undefined, test;
+var testInput = (process.argv.length > 2) ? process.argv[2] : undefined, test;
 
 while(!checkTest())
-    testId = read.keyInSelect(tests.map((t) => `${t.testName}${t.active?" \x1b[32m[ACTIVE]\x1b[0m":""}`), "Test ");
+    testInput = 1 + read.keyInSelect(tests.map((t) => `${t.testName}${t.active?" \x1b[32m[ACTIVE]\x1b[0m":""}`), "Test ");
 
-const time = (process.argv.length > 3) ? process.argv[3] : ["Day", "Night"][read.keyInSelect(["Day", "Night"], "Time: ")];
-if(["Day", "Night"].indexOf(time) < 0) {
+const time = (process.argv.length > 3) ? process.argv[3] : ["day", "yasen"][read.keyInSelect(["Day", "Yasen"], "Time: ")];
+if(["day", "yasen"].indexOf(time) < 0) {
     console.log("Invalid time!");
     return;
 }
@@ -98,14 +98,13 @@ const checkNum = {
 }[morale];
 const checkMorale = (morale, checkNum) => morale >= checkNum[0] && morale <= checkNum[1];
 
-testId = tests.indexOf(test);
-console.log(`Looking up information of test #${testId}: ${test.testName}...`);
+console.log(`Looking up information of test #${1 + tests.indexOf(test)}: ${test.testName}...`);
 
 const client = new Client(dblogin);
 client.connect();
 
 let startTime = new Date();
-client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (err, data) => {
+client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testName], (err, data) => {
     let endTime = new Date();
     if(err) {
         console.log(err);
