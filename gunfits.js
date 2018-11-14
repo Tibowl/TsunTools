@@ -155,7 +155,7 @@ client.query(`SELECT * FROM gunfit WHERE testid = $1 ORDER BY id`, [testId], (er
         "1505": 16,
         "1506": 16
     }
-    let averageEvas = Object.keys(enemy).map((id) => evas[id] * enemy[id]) / samples;
+    let averageEvas = Object.keys(enemy).map((id) => evas[id] * enemy[id]).reduce((a, b) => a + b) / samples;
     
     let predictedAcc = (avgBaseAcc - averageEvas + 1) / 100;
 
