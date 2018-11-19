@@ -66,7 +66,13 @@ const getSpAttackMod = (time, spAttack) => (time == 'Day' ?
     { 0: 1, 1: 1.1, 2: 1.1, 3: 1.5, 4: 1.65, 5: 1.5 }
 )[spAttack] || 1;
 const getEquipAcc = equipId => eqdata[equipId].ACC;
-
+const evas = {
+	"1501": 15,
+	"1502": 16,
+	"1503": 17,
+	"1505": 16,
+	"1506": 16
+}
 
 if(process.argv.length <= 2) {
     console.log("Quick usage: node gunfits <test name OR id> <time: Day/Yasen> (morale: red/orange/green/sparkled)");
@@ -121,8 +127,9 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     let testers = [], enemy = {};
     for(let entry of entries) {
         const shipMorale = entry.ship.morale
-        if ((morale && !checkMorale(shipMorale, checkNum)) || time != entry.time) { continue; }
-        
+        if ((morale && !checkMorale(shipMorale, checkNum)) || time != entry.time) continue;
+		if (!evas[entry.enemy]) continue;
+		
         cl[entry.api_cl]++;
         enemy[entry.enemy] = (enemy[entry.enemy] || 0) + 1;
         const moraleMod = getMoraleMod(shipMorale);
@@ -147,13 +154,6 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     let samples = cl.reduce((a, b) => a + b), hit = cl[1] + cl[2];
     avgBaseAcc /= samples;
 
-    const evas = {
-        "1501": 15,
-        "1502": 16,
-        "1503": 17,
-        "1505": 16,
-        "1506": 16
-    }
     let averageEvas = Object.keys(enemy).map((id) => evas[id] * enemy[id]).reduce((a, b) => a + b) / samples;
     
     let predictedAcc = (avgBaseAcc - averageEvas + 1) / 100;
@@ -176,6 +176,6 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log(`Hit rate ${percentage(hit / samples)}, std. error ${percentage(error(hit/samples, samples))}`);
     console.log();
     console.log(`Bounds: ${bounds(hit, samples).map(percentage).join(" ~ ")}`);
-    console.log(`Theoretical difference: ${percentage((hit / samples) - predictedAcc, 2)} (Error bounds: ${bounds(hit, samples).reverse().map((p) => percentage(p - predictedAcc, 1)).join(" ~ ")})`);
+    console.log(`Theoretical difference: ${percentage((hit / samples) - predictedAcc, 2)} (Error bounds: ${bounds(hit, samples).map((p) => percentage(p - predictedAcc, 1)).join(" ~ ")})`);
 	client.end();
 });
