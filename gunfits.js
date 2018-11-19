@@ -118,7 +118,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     
     let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b));
     let avgBaseAcc = 0;
-    let testers = [];
+    let testers = [], enemy = {};
     for(let entry of entries) {
         const shipMorale = entry.ship.morale
         if ((morale && !checkMorale(shipMorale, checkNum)) || time != entry.time) { continue; }
@@ -132,10 +132,10 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
         let baseAcc = Math.floor(((time == 'Day' ? 90 : 69) + 1.5 * Math.sqrt(luck) + 2 * Math.sqrt(lvl) + equipAcc) * moraleMod * spAttackMod);
         avgBaseAcc += baseAcc;
 
-        let tester = testers.find((t) => t.id == entry.misc.id && t.name == entry.misc.name);
+        let tester = testers.find((t) => t.id == entry.misc.id && t.name == entry.misc.username);
         if(tester == undefined) {
             tester = {
-                "name": entry.misc.name,
+                "name": entry.misc.username,
                 "id": entry.misc.id,
                 "cl": [0,0,0]
             }
@@ -159,7 +159,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     let predictedAcc = (avgBaseAcc - averageEvas + 1) / 100;
 
     testers.sort((a, b) => a.cl.reduce((a,b) => a+b) - b.cl.reduce((a,b) => a+b));
-    let topTesters = testers.slice(10);
+    let topTesters = testers.slice(0, 10);
 
     console.log();
     console.log(`==== Contributors for this test ====`);
@@ -177,4 +177,5 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log();
     console.log(`Bounds: ${bounds(hit, samples).map(percentage).join(" ~ ")}`);
     console.log(`Theoretical difference: ${percentage((hit / samples) - predictedAcc, 2)} (Error bounds: ${bounds(hit, samples).reverse().map((p) => percentage(p - predictedAcc, 1)).join(" ~ ")})`);
+	client.end();
 });
