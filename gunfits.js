@@ -165,7 +165,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
         const spAttackMod = getSpAttackMod(time, entry.spAttackType);
         
         let lvl = entry.ship.lv, luck = entry.ship.luck;
-        let baseAcc = Math.floor(((time == 'Day' ? 90 : 69) + 1.5 * Math.sqrt(luck) + 2 * Math.sqrt(lvl) + equipAcc) * moraleMod * spAttackMod);
+        let baseAcc = Math.floor(((time == 'day' ? 90 : 69) + 1.5 * Math.sqrt(luck) + 2 * Math.sqrt(lvl) + equipAcc) * moraleMod * spAttackMod);
         avgBaseAcc += baseAcc;
 
         let tester = testers.find((t) => t.id == entry.misc.id && t.name == entry.misc.username);
