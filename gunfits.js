@@ -56,15 +56,19 @@ function error(p, n) {
 function percentage(p, d = 3) {
     return `${(p * 100).toFixed(d)}%`
 }
+const range = r => {
+    if(r[0] == r[1]) return r[0];
+    return r.join(" ~ ");
+}
 const getMoraleMod = morale => {
-    const key = [19,33,49,100].findIndex(foo => morale <= foo);
+    const key = [28,32,52,100].findIndex(foo => morale <= foo);
     return [0.5,0.8,1,1.2][key];
 };
 const getSpAttackMod = (time, spAttack) => (time == 'Day' ?
     { 0: 1, 2: 1.1, 3: 1.3, 4: 1.5, 5: 1.3, 6: 1.2 } :
     { 0: 1, 1: 1.1, 2: 1.1, 3: 1.5, 4: 1.65, 5: 1.5 }
 )[spAttack] || 1;
-const getEquipAcc = equipId => eqdata[equipId].ACC;
+const getEquipAcc = equipId => eqdata[equipId].ACC || 0;
 const evas = {
 	"1501": 15,
 	"1502": 16,
@@ -147,7 +151,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     let entries = data.rows;
     console.log(`${entries.length} entries loaded in ${endTime.getTime() - startTime.getTime()}ms`)
     
-    let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b));
+    let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b), 0);
     let avgBaseAcc = 0;
     let testers = [], enemy = {};
     for(let entry of entries) {
@@ -169,11 +173,17 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
             tester = {
                 "name": entry.misc.username,
                 "id": entry.misc.id,
-                "cl": [0,0,0]
+                "cl": [0,0,0],
+                "luck": [luck, luck],
+                "lvl": [lvl, lvl]
             }
             testers.push(tester);
         }
         tester.cl[entry.api_cl]++;
+        tester.luck[0] = Math.min(tester.luck[0], luck);
+        tester.luck[1] = Math.max(tester.luck[1], luck);
+        tester.lvl[0] = Math.min(tester.lvl[0], lvl);
+        tester.lvl[1] = Math.max(tester.lvl[1], lvl);
     }
 
     let samples = cl.reduce((a, b) => a + b), hit = cl[1] + cl[2];
@@ -189,7 +199,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log();
     console.log(`==== Contributors for this test ====`);
     console.log();
-    console.log(topTesters.map((t, idx) => `${idx + 1}) ${t.name}: samples: ${t.cl.reduce((a,b) => a+b)}, CL0/CL1/CL2: ${t.cl.join("/")}, hit bounds: ${bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(percentage).join(" ~ ")}`).join("\n"))
+    console.log(topTesters.map((t, idx) => `${idx + 1}) ${t.name}: samples: ${t.cl.reduce((a,b) => a+b)}, CL0/CL1/CL2: ${t.cl.join("/")}, lck: ${range(t.luck)}, lvl: ${range(t.lvl)}, hit bounds: ${bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(percentage).join(" ~ ")}`).join("\n"))
     console.log();
     console.log(`${testers.length} testers contributed`);
     console.log();
