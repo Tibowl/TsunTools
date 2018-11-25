@@ -60,17 +60,22 @@ for (let fleet in historicalFleets)
 
 // Processing of user stuff
 if(process.argv.length <= 2) {
-    console.log("Usage: node routing <router>");-
+    console.log("Usage: node routing <router>");
     console.log("Routers are .js files located in routers/*");
     console.log("");
     console.log("Example: node routing 1-5/D");
+    console.log("");
+    console.log("Some routers can have args:");
+    console.log("Example: node routing los 1-5 D 1");
     return;
 }
 
 global.routing = {"total": {}, "other": {"other": {}}, "all": {"all": {}}};
 let usingColors = ['\x1b[36m', '\x1b[33m', '\x1b[35m', '\x1b[32m', '\x1b[37m', '\x1b[46m', '\x1b[41m']
 
-let {map, node, nodesToIgnore, nodeColors, getType} = require(`${global.currentDir}/routers/${process.argv[2]}`);
+let router = require(`${global.currentDir}/routers/${process.argv[2]}`);
+if (router.args) router.args(process.argv.slice(3))
+let {map, node, nodesToIgnore, nodeColors, getType} = router;
 
 if(!map || !node) {
     console.log("Map and/or node not defined in router!");

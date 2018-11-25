@@ -32,7 +32,6 @@ function checkTest() {
     try {
         if(parseInt(testInput) - 1 < tests.length) {
             if(parseInt(testInput) - 1 < 0) {
-                process.exit(0)
                 return false;
             }
 
@@ -81,8 +80,34 @@ if(process.argv.length <= 2) {
 
 var testInput = (process.argv.length > 2) ? process.argv[2] : undefined, test;
 
-while(!checkTest())
+if(!checkTest())
     testInput = 1 + read.keyInSelect(tests.map((t) => `${t.testName}${t.active?" \x1b[32m[ACTIVE]\x1b[0m":""}`), "Test ");
+
+if(!checkTest()) {
+    const client = new Client(dblogin);
+    client.connect();
+    
+    let startTime = new Date();
+    
+    client.query(`SELECT testName, count(testName) AS c FROM Fits GROUP BY testName ORDER BY c DESC`, (err, data) => {
+        let endTime = new Date();
+        if(err) {
+            console.log(err);
+            client.end();
+            return;
+        }
+        
+        let entries = data.rows;
+        console.log(`Loaded in ${endTime.getTime() - startTime.getTime()}ms`);
+
+        let longestTestName = entries.reduce((prev, current) => Math.max(prev, current.testname.length), "Test name".length);
+        console.log("Test name".padEnd(longestTestName) + "  Count");
+        console.log("-".padEnd(longestTestName, "-") + "-------"); 
+        console.log(entries.map((t) => t.testname.padEnd(longestTestName) + "  " + t.c).join("\n"));
+        client.end();
+    })
+    return;
+}
 
 const time = (process.argv.length > 3) ? process.argv[3] : ["day", "yasen"][read.keyInSelect(["Day", "Yasen"], "Time: ")];
 if(["day", "yasen"].indexOf(time) < 0) {
