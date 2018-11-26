@@ -193,7 +193,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     
     let predictedAcc = (avgBaseAcc - averageEvas + 1) / 100;
 
-    testers.sort((a, b) => a.cl.reduce((a,b) => a+b) - b.cl.reduce((a,b) => a+b));
+    testers.sort((a, b) => b.cl.reduce((a,b) => a+b) - a.cl.reduce((a,b) => a+b));
     let topTesters = testers.slice(0, 10);
 
     console.log();
