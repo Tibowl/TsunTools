@@ -199,7 +199,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log();
     console.log(`==== Contributors for this test ====`);
     console.log();
-    console.log(topTesters.map((t, idx) => `${idx + 1}) ${t.name}: samples: ${t.cl.reduce((a,b) => a+b)}, CL0/CL1/CL2: ${t.cl.join("/")}, lck: ${range(t.luck)}, lvl: ${range(t.lvl)}, hit bounds: ${bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(percentage).join(" ~ ")}`).join("\n"))
+    console.log(topTesters.map((t, idx) => `${idx + 1}) ${t.name}: samples: ${t.cl.reduce((a,b) => a+b)}, CL0/CL1/CL2: ${t.cl.join("/")}, lck: ${range(t.luck)}, lvl: ${range(t.lvl)}, hit bounds: ${bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(p => percentage(p, 1)).join(" ~ ")}`).join("\n"))
     console.log();
     console.log(`${testers.length} testers contributed`);
     console.log();
