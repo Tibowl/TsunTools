@@ -92,24 +92,37 @@ if(!checkTest()) {
     client.connect();
     
     let startTime = new Date();
-    
-    client.query(`SELECT testName, count(testName) AS c FROM Fits GROUP BY testName ORDER BY c DESC`, (err, data) => {
-        let endTime = new Date();
-        if(err) {
-            console.log(err);
-            client.end();
-            return;
-        }
-        
-        let entries = data.rows;
-        console.log(`Loaded in ${endTime.getTime() - startTime.getTime()}ms`);
+    const topTest = (query, title, callback) =>  {
+        console.log();
+        client.query(query, (err, data) => {
+            let endTime = new Date();
+            if(err) {
+                console.log(err);
+                client.end();
+                return;
+            }
+            
+            let entries = data.rows;
+            console.log(`Loaded in ${endTime.getTime() - startTime.getTime()}ms`);
 
-        let longestTestName = entries.reduce((prev, current) => Math.max(prev, current.testname.length), "Test name".length);
-        console.log("Test name".padEnd(longestTestName) + "  Count");
-        console.log("-".padEnd(longestTestName, "-") + "-------"); 
-        console.log(entries.map((t) => t.testname.padEnd(longestTestName) + "  " + t.c).join("\n"));
-        client.end();
-    })
+            let longestTestName = entries.reduce((prev, current) => Math.max(prev, current.testname.length), title.length);
+            console.log(title.padEnd(longestTestName) + "  Count");
+            console.log("-".padEnd(longestTestName, "-") + "-------"); 
+            console.log(entries.map((t) => t.testname.padEnd(longestTestName) + "  " + t.c).join("\n"));
+            if(callback)
+                callback()
+            else
+                client.end();
+        })
+    }
+    topTest(
+        `SELECT testName, count(testName) AS c FROM Fits GROUP BY testName ORDER BY c DESC`, "Test name", 
+        () => topTest(
+            `SELECT misc->>'username' as testName, count(misc->>'username') AS c FROM Fits GROUP BY misc->>'username' ORDER BY c DESC`, 
+            "Tester"
+        )
+    );
+
     return;
 }
 
