@@ -57,7 +57,7 @@ function percentage(p, d = 3) {
     return `${(p * 100).toFixed(d)}%`
 }
 const range = r => {
-    if(r[0] == r[1]) return r[0];
+    if(r[0] == r[1]) return r[0] + "";
     return r.join(" ~ ");
 }
 const getMoraleMod = morale => {
@@ -175,7 +175,8 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
                 "id": entry.misc.id,
                 "cl": [0,0,0],
                 "luck": [luck, luck],
-                "lvl": [lvl, lvl]
+                "lvl": [lvl, lvl],
+                "morale": [shipMorale, shipMorale]
             }
             testers.push(tester);
         }
@@ -184,6 +185,8 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
         tester.luck[1] = Math.max(tester.luck[1], luck);
         tester.lvl[0] = Math.min(tester.lvl[0], lvl);
         tester.lvl[1] = Math.max(tester.lvl[1], lvl);
+        tester.morale[0] = Math.min(tester.morale[0], shipMorale);
+        tester.morale[1] = Math.max(tester.morale[1], shipMorale);
     }
 
     let samples = cl.reduce((a, b) => a + b), hit = cl[1] + cl[2];
@@ -199,15 +202,52 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log();
     console.log(`==== Contributors for this test ====`);
     console.log();
-    console.log(topTesters.map((t, idx) => `${idx + 1}) ${t.name}: samples: ${t.cl.reduce((a,b) => a+b)}, CL0/CL1/CL2: ${t.cl.join("/")}, lck: ${range(t.luck)}, lvl: ${range(t.lvl)}, hit bounds: ${bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(p => percentage(p, 1)).join(" ~ ")}`).join("\n"))
+    const maxNameLen = topTesters.reduce((p, c) => Math.max(p, c.name.length), 5);
+    const maxSamplesLen = topTesters.reduce((p, c) => Math.max(p, (c.cl.reduce((a, b) => a + b) + "").length), 7);
+    const maxLuckLen = topTesters.reduce((p, c) => Math.max(p, range(c.luck).length), 4);
+    const maxLvlLen = topTesters.reduce((p, c) => Math.max(p, range(c.lvl).length), 3);
+    console.log(`\u001b[4m${
+        "#".padEnd((""+topTesters.length).length)
+    }  ${
+        "Name".padStart(maxNameLen)
+    } | ${
+        "Samples".padStart(maxSamplesLen)
+    } | ${
+        "CL0/CL1/CL2"
+    } | ${
+        "Luck".padStart(maxLuckLen)
+    } | ${
+        "Lvl".padStart(maxLvlLen)
+    } | Hit Bounds\u001b[0m`)
+    console.log(topTesters.map((t, idx) => `${idx + 1}) ${
+        (t.name).padStart(maxNameLen)
+    } | ${
+        (t.cl.reduce((a,b) => a+b) + "").padStart(maxSamplesLen)
+    } | ${
+        t.cl.map((c) => (c+"").padStart(3)).join("/")
+    } | ${
+        range(t.luck).padStart(maxLuckLen)
+    } | ${
+        range(t.lvl).padStart(maxLvlLen)
+    } | ${
+        bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(p => percentage(p, 1)).join(" ~ ")
+    }`).join("\n"));
     console.log();
     console.log(`${testers.length} testers contributed`);
     console.log();
     console.log(`==== Accuracy summary of test ${test.testName}${!morale ? '' : ` in ${morale} morale`} ====`);
     console.log();
-    console.log(`Base rate: ${avgBaseAcc}, avg. evas: ${averageEvas.toFixed(1)}, predicted rate: ${percentage(predictedAcc, 2)}`);
+    console.log(`Total ship stats:`);
+    console.log(`    Lvl.:   ${range([testers.reduce((p, c) => Math.min(c.lvl[0]   , p),999), testers.reduce((p, c) => Math.max(c.lvl[1]   , p),0)])}`);
+    console.log(`    Luck:   ${range([testers.reduce((p, c) => Math.min(c.luck[0]  , p),999), testers.reduce((p, c) => Math.max(c.luck[1]  , p),0)])}`);
+    console.log(`    Morale: ${range([testers.reduce((p, c) => Math.min(c.morale[0], p),999), testers.reduce((p, c) => Math.max(c.morale[1], p),0)])}`);
     console.log();
-    console.log(`Found ${samples} samples, CL0/CL1/CL2: ${cl.join("/")}`);
+    console.log(`Theoretical:`);
+    console.log(`   Base rate: ${avgBaseAcc.toFixed(3)}`);
+    console.log(`   Average evasion: ${averageEvas.toFixed(1)}`);
+    console.log(`   Predicted rate: ${percentage(predictedAcc, 2)}`);
+    console.log();
+    console.log(`Found ${samples} samples: CL0/CL1/CL2: ${cl.join("/")}`);
     console.log(`Hit rate ${percentage(hit / samples)}, std. error ${percentage(error(hit/samples, samples))}`);
     console.log();
     console.log(`Bounds: ${bounds(hit, samples).map(percentage).join(" ~ ")}`);
