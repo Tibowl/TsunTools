@@ -160,6 +160,7 @@ client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' :
                 if(!nodeColors[node])
                     nodeColors[node] = usingColors[id++]
             }
+            //if(total < 50) continue;
             for(let node of Object.keys(rs).sort()) {
                 let c = '';
                 if(rs[node] == total) c = '\x1b[32m';
