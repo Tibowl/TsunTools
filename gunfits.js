@@ -148,16 +148,22 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     }
     let cl = [0, 0, 0];
     
-    let entries = data.rows;
-    console.log(`${entries.length} entries loaded in ${endTime.getTime() - startTime.getTime()}ms`)
+    let entries = data.rows.filter(entry => !((morale && !checkMorale(entry.ship.morale, checkNum)) || time != entry.time));
+    console.log(`${entries.length} samples loaded in ${endTime.getTime() - startTime.getTime()}ms`)
     
     let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b), 0);
     let avgBaseAcc = 0;
     let testers = [], enemy = {};
     for(let entry of entries) {
         const shipMorale = entry.ship.morale
-        if ((morale && !checkMorale(shipMorale, checkNum)) || time != entry.time) continue;
-		if (!evas[entry.enemy]) continue;
+        if (!evas[entry.enemy]) {
+            console.warn(`Entry with unknown enemy evasion ${entry.enemy}, ignoring...`);
+            continue;
+        } 
+        if(entry.ship.improvements.some((p) => p > 0)) {
+            console.warn("Entry with improvements, ignoring...");
+            continue;
+        }
 		
         cl[entry.api_cl]++;
         enemy[entry.enemy] = (enemy[entry.enemy] || 0) + 1;
