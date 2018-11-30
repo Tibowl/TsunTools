@@ -91,8 +91,8 @@ if(!checkTest()) {
     const client = new Client(dblogin);
     client.connect();
     
-    let startTime = new Date();
     const topTest = (query, title, callback) =>  {
+        let startTime = new Date();
         console.log();
         client.query(query, (err, data) => {
             let endTime = new Date();
