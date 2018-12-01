@@ -261,6 +261,9 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log(`    Luck:   ${range([testers.reduce((p, c) => Math.min(c.luck[0]  , p),999), testers.reduce((p, c) => Math.max(c.luck[1]  , p),0)])}`);
     console.log(`    Morale: ${range([testers.reduce((p, c) => Math.min(c.morale[0], p),999), testers.reduce((p, c) => Math.max(c.morale[1], p),0)])}`);
     console.log();
+    console.log(`Enemies:`);
+    console.log(Object.keys(enemy).sort().map((id) => `    ${id}: ${enemy[id]} (evas: ${evas[id]})`).join("\n"))
+    console.log();
     console.log(`Theoretical:`);
     console.log(`   Base rate: ${avgBaseAcc.toFixed(3)}`);
     console.log(`   Average evasion: ${averageEvas.toFixed(1)}`);
