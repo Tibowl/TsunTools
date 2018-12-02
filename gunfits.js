@@ -166,7 +166,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     
     let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b), 0);
     let avgBaseAcc = 0;
-    let testers = [], enemy = {};
+    let testers = [], enemy = {}, position = {};
     for(let entry of entries) {
         const shipMorale = entry.ship.morale
         if (!evas[entry.enemy]) {
@@ -180,6 +180,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
 		
         cl[entry.api_cl]++;
         enemy[entry.enemy] = (enemy[entry.enemy] || 0) + 1;
+        position[entry.ship.position] = (position[entry.ship.position] || 0) + 1;
         const moraleMod = getMoraleMod(shipMorale);
         const spAttackMod = getSpAttackMod(time, entry.spAttackType);
         
@@ -260,14 +261,16 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log(`    Lvl.:   ${range([testers.reduce((p, c) => Math.min(c.lvl[0]   , p),999), testers.reduce((p, c) => Math.max(c.lvl[1]   , p),0)])}`);
     console.log(`    Luck:   ${range([testers.reduce((p, c) => Math.min(c.luck[0]  , p),999), testers.reduce((p, c) => Math.max(c.luck[1]  , p),0)])}`);
     console.log(`    Morale: ${range([testers.reduce((p, c) => Math.min(c.morale[0], p),999), testers.reduce((p, c) => Math.max(c.morale[1], p),0)])}`);
+    console.log(`    Ship position:`);
+    console.log(Object.keys(position).sort().map((id) => `        ${id}: ${position[id]} (${percentage(position[id] / Object.values(position).reduce((a,b) => a+b), 2)})`).join("\n"))
     console.log();
     console.log(`Enemies:`);
-    console.log(Object.keys(enemy).sort().map((id) => `    ${id}: ${enemy[id]} (evas: ${evas[id]})`).join("\n"))
+    console.log(Object.keys(enemy).sort().map((id) => `    ${id}: ${enemy[id]} (${percentage(enemy[id] / Object.values(enemy).reduce((a,b) => a+b), 2)}, evas: ${evas[id]})`).join("\n"))
     console.log();
     console.log(`Theoretical:`);
-    console.log(`   Base rate: ${avgBaseAcc.toFixed(3)}`);
+    console.log(`   Average base rate: ${avgBaseAcc.toFixed(3)}`);
     console.log(`   Average evasion: ${averageEvas.toFixed(1)}`);
-    console.log(`   Predicted rate: ${percentage(predictedAcc, 2)}`);
+    console.log(`   Average predicted rate: ${percentage(predictedAcc, 2)}`);
     console.log();
     console.log(`Found ${samples} samples: CL0/CL1/CL2: ${cl.join("/")}`);
     console.log(`Hit rate ${percentage(hit / samples)}, std. error ${percentage(error(hit/samples, samples))}`);
