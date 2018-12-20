@@ -1,8 +1,5 @@
 exports.nodesToIgnore = [];
-exports.nodeColors = {
-    'T': '\x1b[42m\x1b[30m', // Green BG
-    'L': '\x1b[41m\x1b[37m', // Red BG
-};
+exports.nodeColors = {};
 
 let Cn = 0;
 

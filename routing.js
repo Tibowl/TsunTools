@@ -145,6 +145,11 @@ client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' :
     
     // Generate summary
     console.log(`==== Routing info from ${map} / node ${node} ====`);
+    if (router.onFinish) {
+        router.onFinish();
+        client.end();
+        return;
+    }
     let id = 0;
     for(let type in routing) {
         let excludedType = type == "total" || type == "all" || type == "other";

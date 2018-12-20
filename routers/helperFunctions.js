@@ -1,8 +1,9 @@
 // Taken from KC's CombineUtil
-let specialCombines = {
+global.specialCombines = {
     "aDD": ["DE","DD"],
     "aCL": ["CL","CLT"],
-    "aC": ["CL","CLT","CA","CAV","FBB","BB","BBV"],
+    "aDDCL": ["DD","DE","CL"],
+    //"aC": ["CL","CLT","CA","CAV","FBB","BB","BBV"],
     "aCA": ["CA","CAV"],
     "aBB": ["FBB","BB","BBV"],
     "aCV": ["CVL","CV","CVB"],
@@ -10,6 +11,8 @@ let specialCombines = {
     "aBBnoV": ["FBB","BB"],
     "aSS": ["SS","SSV"],
     "aBBnoF": ["BB","BBV"],
+    "aBBCV": ["CVL","CV","CVB","FBB","BB","BBV"],
+    "aBBCVnoL": ["CV","CVB","FBB","BB","BBV"],
 };
 /*
 ===============================================================================
@@ -93,8 +96,8 @@ Convert stypeCount of getStypeCount to special combines, these are special prese
 */
 global.getSpecialCombines = (stypeCount) => {
     let specialCount = {};
-    for(let type in specialCombines)
-        specialCount[type] = specialCombines[type].map((type) => stypeCount[type]).reduce((a,b) => a+b);
+    for(let type in global.specialCombines)
+        specialCount[type] = global.specialCombines[type].map((type) => stypeCount[type]).reduce((a,b) => a+b);
     return specialCount;
 }
 
