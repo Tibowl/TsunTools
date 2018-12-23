@@ -146,6 +146,7 @@ client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' :
     // Generate summary
     console.log(`==== Routing info from ${map} / node ${node} ====`);
     if (router.onFinish) {
+        console.log(`Finished in ${(new Date()).getTime() - endTime.getTime()}ms`)
         router.onFinish();
         client.end();
         return;
