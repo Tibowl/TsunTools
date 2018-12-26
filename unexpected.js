@@ -71,6 +71,23 @@ if(!map || !node) {
     return;
 }
 
+const multipliers = {
+    precapMod: [0, 999],
+    precapAdd: [-999, 999],
+    postcapMod: [0, 999],
+    postcapAdd: [-999, 999],
+    criticalMod: [0, 999],
+}
+
+const compareArrays = (inc, curr) => {
+    const res = [];
+    res.push(curr[0] > inc[0] ? curr[0] : inc[0]);
+    res.push(curr[1] < inc[1] ? curr[1] : inc[1]);
+    return res;
+};
+
+let counter = 0;
+
 let edgesFromNode = Object.keys(edges["World " + map]).filter((edge) => {
     let e = edges["World " + map][edge];
     return e[1] == node;
@@ -92,14 +109,19 @@ client.query(`SELECT * FROM abnormaldamage WHERE map = $1 AND edgeid = ANY($2) O
     let entries = data.rows;
     console.log(`${entries.length} entries loaded in ${endTime.getTime() - startTime.getTime()}ms`)
     for(let entry of entries) {
-        if (!isValidInstance(entry)) continue;
-        if (gimmick.type === 'basic') analyzeInstancePostcap(entry);
+        if (!datafilter(entry)) { return; }
+        counter++;
+    
+        const res = checkMods(entry);
+        for (let key in res) {
+            const resultArray = res[key];
+            const holdArray = multipliers[key];
+            multipliers[key] = compareArrays(resultArray, holdArray);
+        }
     }
     
     // Generate summary
     console.log(`==== Unexpected damage in ${map} / node ${node} ====`);
-    for(let key in damage) {
-        if (gimmick.type === 'basic') console.log((idtobasename[key] || key) + ": [" + formatNum(damage[key].min) + " ~ " + formatNum(damage[key].max) + "]");
-    }
+    console.log(multipliers);
     client.end();
 });
