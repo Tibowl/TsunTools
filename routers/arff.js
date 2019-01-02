@@ -10,11 +10,13 @@ exports.getType = (entry, edgeNames) => {
     let edge = edgeNames[1];
     let s1 = getStypeCount(entry).fleet1;
     let sa = getStypeCount(entry).all;
+    let radarC = getShipWithItemsCount(entry, [28, 28, 88, 240, 307, 315, 31, 32, 89, 124, 141, 278, 279, 142])
     
    let sample = []
         .concat(stype.slice(1).map((t) => s1[t]))
         .concat(Object.keys(global.specialCombines).map((t) => getSpecialCombines(s1)[t]))
-        .concat(entry.fleet1.length);
+        .concat(entry.fleet1.length)
+        .concat(radarC);
     if(isEvent)
         sample = sample
             .concat(["Single","CTF","STF","TCF"][entry.fleettype])
@@ -59,7 +61,8 @@ exports.args = (args) => {
 
 ${/* stype fleet1*/stype.slice(1).map((t) => `@attribute fleet1-${t} NUMERIC`).join("\n")}
 ${/* combined types*/Object.keys(global.specialCombines).map((t) => `@attribute fleet1-${t} NUMERIC`).join("\n")}
-@attribute fleet1-shipCount NUMERIC${!isEvent?"":
+@attribute fleet1-shipCount NUMERIC
+@attribute fleet1-radarCount NUMERIC${!isEvent?"":
 /* Event only stuff*/
 `
 @attribute fleettype {Single,CTF,STF,TCF}
