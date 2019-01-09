@@ -64,7 +64,7 @@ const getMoraleMod = morale => {
     const key = [28,32,52,100].findIndex(foo => morale <= foo);
     return [0.5,0.8,1,1.2][key];
 };
-const getSpAttackMod = (time, spAttack) => (time == 'Day' ?
+const getSpAttackMod = (time, spAttack) => (time == 'day' ?
     { 0: 1, 2: 1.1, 3: 1.3, 4: 1.5, 5: 1.3, 6: 1.2 } :
     { 0: 1, 1: 1.1, 2: 1.1, 3: 1.5, 4: 1.65, 5: 1.5 }
 )[spAttack] || 1;

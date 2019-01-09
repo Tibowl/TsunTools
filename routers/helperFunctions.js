@@ -106,14 +106,14 @@ Get count of ships that have a specific item
 */
 global.getShipWithItemCount = (entry, id) => {
     return entry.fleet1.filter((ship) => ship.equip.filter((eId) => eId == id).length).length;
-
+}
 /*
 Get count of ships that have any item in list
 */
 global.getShipWithItemsCount = (entry, ids) => {
     if(entry.fleet2 && entry.fleet2.length)
-    return entry.fleet1.map((ship) => ship.equip.filter((eId) => ids.includes(eId)).length).reduce((a, b) => a + b) + entry.fleet2.map((ship) => ship.equip.filter((eId) => ids.includes(eId)).length).reduce((a, b) => a + b);
-    return entry.fleet1.map((ship) => ship.equip.filter((eId) => ids.includes(eId)).length).reduce((a, b) => a + b)
+        return entry.fleet1.filter((ship) => ship.equip.filter((eId) => ids.includes(eId)).length > 0).length + entry.fleet2.filter((ship) => ship.equip.filter((eId) => ids.includes(eId)).length > 0).length;
+    return entry.fleet1.filter((ship) => ship.equip.filter((eId) => ids.includes(eId)).length > 0).length
 }
 
 /*
