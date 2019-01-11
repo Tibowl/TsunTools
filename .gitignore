@@ -75,3 +75,4 @@ typings/
 package-lock.json
 config/dblogin.json
 *.arff
+*.html
