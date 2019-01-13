@@ -9,7 +9,7 @@
   },
   {
     "testName": "NelsonKP46cmOrangeRed",
-    "active": true,
+    "active": false,
     "shipId": 576,
     "lvlRange": [81, 99],
     "moraleRange": [0, 32],
@@ -17,7 +17,7 @@
   },  
   {
     "testName": "WarspiteK38cmQuadKOrangeRed",
-    "active": true,
+    "active": false,
     "shipId": 364,
     "lvlRange": [81, 99],
     "moraleRange": [0, 32],
@@ -33,7 +33,7 @@
   },
   {
     "testName": "NagatoK241cmK2OrangeRed",
-    "active": true,
+    "active": false,
     "shipId": 541,
     "lvlRange": [81, 99],
     "moraleRange": [0, 32],
@@ -57,10 +57,42 @@
   },
   {
     "testName": "OoyodoK15.2x2OrangeRed",
-    "active": true,
+    "active": false,
     "shipId": 321,
     "lvlRange": [81, 99],
     "moraleRange": [0, 32],
     "equipment": [65, 65]
+  },
+  {
+    "testName": "NisshinA20.3NormalA",
+    "active": false,
+    "shipId": 586,
+    "lvlRange": [67, 74],
+    "moraleRange": [33, 49],
+    "equipment": [6]
+  },
+  {
+    "testName": "NisshinA20.3RedA",
+    "active": true,
+    "shipId": 586,
+    "lvlRange": [60, 74],
+    "moraleRange": [0, 19],
+    "equipment": [6]
+  },
+  {
+    "testName": "NisshinA20.3NormalB",
+    "active": false,
+    "shipId": 586,
+    "lvlRange": [75, 83],
+    "moraleRange": [33, 49],
+    "equipment": [6]
+  },
+  {
+    "testName": "NisshinA20.3RedB",
+    "active": true,
+    "shipId": 586,
+    "lvlRange": [75, 92],
+    "moraleRange": [0, 19],
+    "equipment": [6]
   }
 ]
