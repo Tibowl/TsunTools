@@ -68,7 +68,7 @@ const getSpAttackMod = (time, spAttack) => (time == 'day' ?
     { 0: 1, 2: 1.1, 3: 1.3, 4: 1.5, 5: 1.3, 6: 1.2 } :
     { 0: 1, 1: 1.1, 2: 1.1, 3: 1.5, 4: 1.65, 5: 1.5 }
 )[spAttack] || 1;
-const getEquipAcc = equipId => eqdata[equipId].ACC || 0;
+const getEquipAcc = equipId => equipId > 0 ? eqdata[equipId].ACC || 0 : 0;
 const evas = {
 	"1501": 15,
 	"1502": 16,
@@ -164,7 +164,6 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     let entries = data.rows.filter(entry => !((morale && !checkMorale(entry.ship.morale, checkNum)) || time != entry.time));
     console.log(`${entries.length} samples loaded in ${endTime.getTime() - startTime.getTime()}ms`)
     
-    let equipAcc = test.equipment.reduce((a,b) => a + getEquipAcc(b), 0);
     let avgBaseAcc = 0;
     let testers = [], enemy = {}, position = {};
     for(let entry of entries) {
@@ -185,6 +184,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
         const spAttackMod = getSpAttackMod(time, entry.spAttackType);
         
         let lvl = entry.ship.lv, luck = entry.ship.luck;
+        let equipAcc = entry.ship.equips.reduce((a,b) => a + getEquipAcc(b), 0);
         let baseAcc = Math.floor(((time == 'day' ? 90 : 69) + 1.5 * Math.sqrt(luck) + 2 * Math.sqrt(lvl) + equipAcc) * moraleMod * spAttackMod);
         avgBaseAcc += baseAcc;
 

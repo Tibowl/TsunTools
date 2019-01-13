@@ -91,6 +91,7 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
             foundFleet.nowhp = foundFleet.nowhp.map((val, ind) => [Math.min(val[0], fleet.nowhp[ind]), Math.max(val[1], fleet.nowhp[ind])])
             foundFleet.lvl = foundFleet.lvl.map((val, ind) => [Math.min(val[0], fleet.lvl[ind]), Math.max(val[1], fleet.lvl[ind])])
             foundFleet.stats = foundFleet.stats.map((sh, ind) => sh.map((val, inx) => [Math.min(val[0], fleet.stats[ind][inx]), Math.max(val[1], fleet.stats[ind][inx])]))
+            foundFleet.maps = foundFleet.maps.sort();
         } else {
             fleet.uniqueness = uniqueness;
             fleet.maps = [map];
@@ -102,12 +103,48 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
     }
 
     console.log(`Found ${friendFleets.length} fleets.`)
-    friendFleets.forEach((a) => delete a.uniqueness);
+
+    let knownUniq =  [/*
+        `{"ship":[136,321,369,490],"equip":[[276,276,276,140,-1],[235,235,275,101,-1],[266,286,88,-1,-1],[286,286,286,-1,-1]]}`,
+        `{"ship":[349,301,542,563],"equip":[[267,286,88,-1,-1],[266,286,88,-1,-1],[267,286,240,-1,-1],[286,286,286,-1,-1]]}`,
+        `{"ship":[349,301,542,563],"equip":[[267,286,88,-1,-1],[266,266,74,-1,-1],[267,267,101,-1,-1],[267,286,240,-1,-1]]}`,
+        `{"ship":[536,383,386,373],"equip":[[154,255,259,-1,-1],[229,229,88,-1,-1],[229,229,88,-1,-1],[267,286,88,-1,-1]]}`,
+        `{"ship":[536,383,386],"equip":[[154,255,259,-1,-1],[229,229,88,-1,-1],[229,229,88,-1,-1]]}`,
+        `{"ship":[687,327,328],"equip":[[266,266,74,-1,-1],[266,266,101,-1,-1],[266,15,88,-1,-1]]}`,
+        `{"ship":[687,498],"equip":[[266,266,101,-1,-1],[266,286,88,-1,-1]]}`,
+        `{"ship":[557,354,355,586],"equip":[[122,286,88,-1,-1],[266,286,88,-1,-1],[266,286,88,-1,-1],[309,309,309,101,-1]]}`,
+        `{"ship":[373,688,680],"equip":[[267,15,88,-1,-1],[267,15,88,-1,-1],[286,286,286,-1,-1]]},`,
+        `{"ship":[686,359],"equip":[[267,267,101,-1,-1],[286,15,286,-1,-1]]}`,
+        `{"ship":[373,688,680],"equip":[[267,15,88,-1,-1],[267,15,88,-1,-1],[286,286,286,-1,-1]]}`,
+        `{"ship":[688,373],"equip":[[267,286,88,-1,-1],[286,286,286,-1,-1]]}`,
+        `{"ship":[330,329,294,690],"equip":[[122,122,74,-1,-1],[266,286,88,-1,-1],[266,286,88,-1,-1],[310,310,101,-1,-1]]}`,
+        `{"ship":[373,680,688],"equip":[[267,286,88,-1,-1],[267,286,88,-1,-1],[286,286,286,-1,-1]]}`,
+        `{"ship":[150,152,323,144],"equip":[[7,7,7,74,-1],[7,7,7,101,-1],[266,266,15,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[208,195],"equip":[[63,63,101,-1,-1],[285,285,285,-1,-1]]}`,
+        `{"ship":[498,687],"equip":[[266,286,88,-1,-1],[286,286,286,-1,-1]]}`*/
+    ]
+    friendFleets = friendFleets.filter((a) => knownUniq.indexOf(a.uniqueness) < 0)
+
     let count = (a) => a.ship.length + a.equip.map((a) => a.filter((b) => b>0).length).reduce((a,b) => a+b,0)
-    friendFleets = friendFleets.sort((a, b) => count(b) - count(a))
+    friendFleets = friendFleets.sort((a, b) => (a.maps[0].localeCompare(b.maps[0])) || (a.ship[0] - b.ship[0]) || (count(b) - count(a)))
+    let previousMaps = undefined;
     let fleetHTML = ``;
     let c = 0;
     for (let friendfleet of friendFleets) {
+        console.log(friendfleet.uniqueness)
+        let maplist = friendfleet.maps.sort().join(", ");
+        if (previousMaps == undefined)
+            previousMaps = maplist;
+        if (previousMaps != maplist) {
+            previousMaps = maplist;
+            if (c % 3 != 0) 
+                fleetHTML += `<div style="clear: both; height: 5px;"></div>`
+            fleetHTML += `<div style="clear: both; height: 10px;"></div>
+            <hr>
+            <div style="clear: both; height: 10px;"></div>
+            `
+            c = 0;
+        }
         fleetHTML += `
 <table border=1 rules=rows>
     <col width="130px">
@@ -116,7 +153,7 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
     <col width="300px">
         
     <tr>
-        <th colspan="4">Map: ${friendfleet.maps.sort().join(", ")}</th>
+        <th colspan="4">Map: ${maplist}</th>
     </tr>
 `
         for (let ind in friendfleet.ship) {
