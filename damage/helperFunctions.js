@@ -14,7 +14,7 @@ global.datafilter = function(instance) {
     if (instance.enemy.hp <= 0) {return false;}
 
     // Ship filter
-    if (![176, 177].includes(instance.ship.id)) {return false;}
+
     // Scratch filter
     if (instance.damageinstance.actualDamage > (instance.enemy.hp*0.06 + (instance.enemy.hp-1)*0.08 || 100)) { 
 

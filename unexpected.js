@@ -60,16 +60,17 @@ for (let fleet in historicalFleets)
             console.warn(`\x1b[33m!!! Unknown ship ${ship} in ${fleet} historicals!\x1b[0m`);
         }
 
-global.damage = {"all": {}};
-const map = gimmick.map;
-const node = gimmick.node;
-global.eqdata = require(`${global.currentDir}/damage/kcEQDATA.js`)['EQDATA'];
-global.shipdata = require(`${global.currentDir}/damage/kcSHIPDATA.js`)['shipdata'];
-
-if(!map || !node) {
-    console.log("Map and/or node not defined in gimmick.json!");
+if(process.argv.length <= 3) {
+    console.log("Usage: node unexpected <map> <node>");
+    console.log("Example: node routing 43-3 Z");
     return;
 }
+
+const map = process.argv[2];
+const node = process.argv[3];
+global.eqdata = require(`${global.currentDir}/damage/kcEQDATA.js`)['EQDATA'];
+global.shipdata = require(`${global.currentDir}/damage/kcSHIPDATA.js`)['shipdata'];
+const idobj = {};
 
 const multipliers = {
     precapMod: [0, 999],
@@ -87,7 +88,6 @@ const compareArrays = (inc, curr) => {
 };
 
 let counter = 0;
-
 let edgesFromNode = Object.keys(edges["World " + map]).filter((edge) => {
     let e = edges["World " + map][edge];
     return e[1] == node;
@@ -109,19 +109,25 @@ client.query(`SELECT * FROM abnormaldamage WHERE map = $1 AND edgeid = ANY($2) O
     let entries = data.rows;
     console.log(`${entries.length} entries loaded in ${endTime.getTime() - startTime.getTime()}ms`)
     for(let entry of entries) {
-        if (!datafilter(entry)) { return; }
+        if (!datafilter(entry)) { continue; }
         counter++;
-    
-        const res = checkMods(entry);
-        for (let key in res) {
-            const resultArray = res[key];
-            const holdArray = multipliers[key];
-            multipliers[key] = compareArrays(resultArray, holdArray);
-        }
+        idobj[entry.ship.id] = idobj[entry.ship.id] || {};
+        const postcapPower = entry.ship.postcapPower;
+        const lowPower = entry.damageinstance.actualDamage / entry.ship.rAmmoMod + 0.7 * entry.enemy.armor;
+        const highPower = lowPower + 0.6 * (entry.enemy.armor - 1);
+        const lowMod = lowPower/postcapPower || 1;
+        const highMod = highPower/postcapPower || 999;
+
+        idobj[entry.ship.id].min = (idobj[entry.ship.id].min || 1) > lowMod ? (idobj[entry.ship.id].min || 1) : lowMod;
+        idobj[entry.ship.id].max = (idobj[entry.ship.id].max || 999) < highMod ? (idobj[entry.ship.id].max || 999) : highMod;
+        idobj[entry.ship.id].count = (idobj[entry.ship.id].count || 0) + 1;
     }
     
     // Generate summary
     console.log(`==== Unexpected damage in ${map} / node ${node} ====`);
-    console.log(multipliers);
+    console.log(counter + " Samples");
+    for (const key in idobj){
+        if (shipdata[key]) console.log(shipdata[key].name + " - "+Math.floor(idobj[key].min*100)/100 + " ~ " + Math.floor(idobj[key].max*100)/100 + " ("+idobj[key].count+"x)");
+    };
     client.end();
 });
