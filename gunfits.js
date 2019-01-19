@@ -1,6 +1,7 @@
 const fs = require('fs'),
     { Client } = require('pg'),
-    read = require('readline-sync');
+    read = require('readline-sync'),
+    tty = require('tty');
 
 global.currentDir = __dirname;
 
@@ -106,9 +107,17 @@ if(!checkTest()) {
             console.log(`Loaded in ${endTime.getTime() - startTime.getTime()}ms`);
 
             let longestTestName = entries.reduce((prev, current) => Math.max(prev, current.testname.length), title.length);
-            console.log(title.padEnd(longestTestName) + "  Count");
-            console.log("-".padEnd(longestTestName, "-") + "-------"); 
-            console.log(entries.map((t) => t.testname.padEnd(longestTestName) + "  " + t.c).join("\n"));
+            console.log(title.padEnd(longestTestName) + "   Count");
+            console.log("-".padEnd(longestTestName, "-") + "--------"); 
+            // console.log(entries.map((t) => t.testname.padEnd(longestTestName) + "  " + t.c).join("\n"));
+
+            for(let entry of entries) {
+                process.stdout.write(entry.testname)
+                process.stdout.cursorTo(longestTestName + 3)
+                process.stdout.write(entry.c)
+                process.stdout.moveCursor(0, 1)
+                process.stdout.cursorTo(0)
+            }
             if(callback)
                 callback()
             else
@@ -222,7 +231,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log();
     console.log(`==== Contributors for this test ====`);
     console.log();
-    const maxNameLen = topTesters.reduce((p, c) => Math.max(p, c.name.length), 5);
+    const maxNameLen = topTesters.reduce((p, c) => Math.max(p, c.name.length), 12);
     const maxSamplesLen = topTesters.reduce((p, c) => Math.max(p, (c.cl.reduce((a, b) => a + b) + "").length), 7);
     const maxLuckLen = topTesters.reduce((p, c) => Math.max(p, range(c.luck).length), 4);
     const maxLvlLen = topTesters.reduce((p, c) => Math.max(p, range(c.lvl).length), 3);
@@ -239,7 +248,28 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     } | ${
         "Lvl".padStart(maxLvlLen)
     } | Hit Bounds\u001b[0m`)
-    console.log(topTesters.map((t, idx) => `${idx + 1}) ${
+    for (let idx in topTesters) {
+        let t = topTesters[idx];
+
+        process.stdout.write(`${parseInt(idx)+1}) ${t.name}`)
+        process.stdout.cursorTo(maxNameLen + 3)
+        process.stdout.write(` | ${
+            (t.cl.reduce((a,b) => a+b) + "").padStart(maxSamplesLen)
+        } | ${
+            t.cl.map((c) => (c+"").padStart(3)).join("/")
+        } | ${
+            range(t.luck).padStart(maxLuckLen)
+        } | ${
+            range(t.lvl).padStart(maxLvlLen)
+        } | ${
+            bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(p => percentage(p, 1)).join(" ~ ")
+        }`)
+        
+        process.stdout.moveCursor(0, 1)
+        process.stdout.cursorTo(0)
+
+    }
+    /*console.log(topTesters.map((t, idx) => `${idx + 1}) ${
         (t.name).padStart(maxNameLen)
     } | ${
         (t.cl.reduce((a,b) => a+b) + "").padStart(maxSamplesLen)
@@ -251,7 +281,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
         range(t.lvl).padStart(maxLvlLen)
     } | ${
         bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(p => percentage(p, 1)).join(" ~ ")
-    }`).join("\n"));
+    }`).join("\n"));*/
     console.log();
     console.log(`${testers.length} testers contributed`);
     console.log();
