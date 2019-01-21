@@ -115,8 +115,7 @@ if(!checkTest()) {
                 process.stdout.write(entry.testname)
                 process.stdout.cursorTo(longestTestName + 3)
                 process.stdout.write(entry.c)
-                process.stdout.moveCursor(0, 1)
-                process.stdout.cursorTo(0)
+                console.log();
             }
             if(callback)
                 callback()
@@ -265,9 +264,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
             bounds(t.cl[1]+t.cl[2], t.cl.reduce((a,b) => a+b)).map(p => percentage(p, 1)).join(" ~ ")
         }`)
         
-        process.stdout.moveCursor(0, 1)
-        process.stdout.cursorTo(0)
-
+        console.log();
     }
     /*console.log(topTesters.map((t, idx) => `${idx + 1}) ${
         (t.name).padStart(maxNameLen)
