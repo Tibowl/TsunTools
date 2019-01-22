@@ -106,7 +106,7 @@
   },
   {
     "testName": "MutsuK41cmK2Normal",
-    "active": true,
+    "active": false,
     "shipId": 276,
     "lvlRange": [94, 99],
     "moraleRange": [33, 49],
