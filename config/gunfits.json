@@ -102,7 +102,7 @@
     "lvlRange": [86, 99],
     "moraleRange": [0, 19],
     "equipment": [300],
-    "accuracy": 30
+    "accuracy": 24
   },
   {
     "testName": "MutsuK41cmK2Normal",
