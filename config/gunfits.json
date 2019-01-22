@@ -94,5 +94,23 @@
     "lvlRange": [75, 92],
     "moraleRange": [0, 19],
     "equipment": [6]
+  },
+  {
+    "testName": "NagatoK216inchFCRRed",
+    "active": true,
+    "shipId": 541,
+    "lvlRange": [86, 99],
+    "moraleRange": [0, 19],
+    "equipment": [300],
+    "accuracy": 30
+  },
+  {
+    "testName": "MutsuK41cmK2Normal",
+    "active": true,
+    "shipId": 276,
+    "lvlRange": [94, 99],
+    "moraleRange": [33, 49],
+    "equipment": [290],
+    "accuracy": -6
   }
 ]
