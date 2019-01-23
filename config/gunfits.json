@@ -105,13 +105,13 @@
     "accuracy": 24
   },
   {
-    "testName": "MutsuK41cmK2Normal",
-    "active": false,
+    "testName": "MutsuK41cmK2Red",
+    "active": true,
     "shipId": 276,
     "lvlRange": [94, 99],
-    "moraleRange": [33, 49],
+    "moraleRange": [0, 19],
     "equipment": [290],
-    "accuracy": -6
+    "accuracy": 24
   },
   {
     "testName": "GotlandKBofors15.2cmNormal",
@@ -121,5 +121,14 @@
     "moraleRange": [33, 49],
     "equipment": [303],
     "accuracy": -6
+  },
+  {
+    "testName": "NelsonK35.6cmRed",
+    "active": true,
+    "shipId": 576,
+    "lvlRange": [82, 99],
+    "moraleRange": [0, 19],
+    "equipment": [7],
+    "accuracy": 24
   }
 ]
