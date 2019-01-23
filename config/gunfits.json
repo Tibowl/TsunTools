@@ -115,7 +115,7 @@
   },
   {
     "testName": "GotlandKBofors15.2cmNormal",
-    "active": true,
+    "active": false,
     "shipId": 579,
     "lvlRange": [87, 99],
     "moraleRange": [33, 49],
