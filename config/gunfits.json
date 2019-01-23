@@ -112,5 +112,14 @@
     "moraleRange": [33, 49],
     "equipment": [290],
     "accuracy": -6
+  },
+  {
+    "testName": "GotlandKBofors15.2cmNormal",
+    "active": true,
+    "shipId": 579,
+    "lvlRange": [87, 99],
+    "moraleRange": [33, 49],
+    "equipment": [303],
+    "accuracy": -6
   }
 ]
