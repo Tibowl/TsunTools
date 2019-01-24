@@ -111,16 +111,16 @@
     "lvlRange": [94, 99],
     "moraleRange": [0, 19],
     "equipment": [290],
-    "accuracy": 24
+    "accuracy": 18
   },
   {
-    "testName": "GotlandKBofors15.2cmNormal",
-    "active": false,
+    "testName": "GotlandKBofors15.2cmRed",
+    "active": true,
     "shipId": 579,
-    "lvlRange": [87, 99],
-    "moraleRange": [33, 49],
+    "lvlRange": [78, 99],
+    "moraleRange": [0, 19],
     "equipment": [303],
-    "accuracy": -6
+    "accuracy": 18
   },
   {
     "testName": "NelsonK35.6cmRed",
@@ -129,6 +129,15 @@
     "lvlRange": [82, 99],
     "moraleRange": [0, 19],
     "equipment": [7],
-    "accuracy": 24
+    "accuracy": 18
+  },
+  {
+    "testName": "NisshinA14cmKRed",
+    "active": true,
+    "shipId": 586,
+    "lvlRange": [84, 99],
+    "moraleRange": [0, 19],
+    "equipment": [310],
+    "accuracy": 18
   }
 ]
