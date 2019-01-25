@@ -73,7 +73,7 @@
   },
   {
     "testName": "NisshinA20.3RedA",
-    "active": true,
+    "active": false,
     "shipId": 586,
     "lvlRange": [60, 74],
     "moraleRange": [0, 19],
@@ -89,7 +89,7 @@
   },
   {
     "testName": "NisshinA20.3RedB",
-    "active": true,
+    "active": false,
     "shipId": 586,
     "lvlRange": [75, 92],
     "moraleRange": [0, 19],
