@@ -155,5 +155,14 @@
     "lvlRange": [86, 99],
     "moraleRange": [0, 19],
     "equipment": [300,9,8]
+  },
+  {
+    "testName": "FusouK246cm+Boiler+Turbine",
+    "active": true,
+    "shipId": 411,
+    "lvlRange": [87, 99],
+    "moraleRange": [0, 19],
+    "equipment": [9,34,33],
+    "accuracy": -2
   }
 ]
