@@ -112,7 +112,11 @@ if(!checkTest()) {
             // console.log(entries.map((t) => t.testname.padEnd(longestTestName) + "  " + t.c).join("\n"));
 
             for(let entry of entries) {
+                let test = tests.find((t) => t.testName == entry.testname);
+                if (test)
+                    process.stdout.write(test.active ? "\x1b[32m" : "\x1b[31m")
                 process.stdout.write(entry.testname)
+                process.stdout.write("\x1b[0m")
                 process.stdout.cursorTo(longestTestName + 3)
                 process.stdout.write(entry.c)
                 console.log();
