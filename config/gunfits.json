@@ -154,7 +154,6 @@
     "shipId": 360,
     "lvlRange": [86, 99],
     "moraleRange": [0, 19],
-    "equipment": [300,9,8],
-    "accuracy": -2
+    "equipment": [300,9,8]
   }
 ]
