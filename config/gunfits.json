@@ -25,7 +25,7 @@
   },
   {
     "testName": "WarspiteK16inch+FCROrangeRed",
-    "active": true,
+    "active": false,
     "shipId": 364,
     "lvlRange": [81, 99],
     "moraleRange": [0, 32],
@@ -64,27 +64,11 @@
     "equipment": [65, 65]
   },
   {
-    "testName": "NisshinA20.3NormalA",
-    "active": false,
-    "shipId": 586,
-    "lvlRange": [67, 74],
-    "moraleRange": [33, 49],
-    "equipment": [6]
-  },
-  {
     "testName": "NisshinA20.3RedA",
     "active": false,
     "shipId": 586,
     "lvlRange": [60, 74],
     "moraleRange": [0, 19],
-    "equipment": [6]
-  },
-  {
-    "testName": "NisshinA20.3NormalB",
-    "active": false,
-    "shipId": 586,
-    "lvlRange": [75, 83],
-    "moraleRange": [33, 49],
     "equipment": [6]
   },
   {
@@ -163,5 +147,14 @@
     "lvlRange": [96, 99],
     "moraleRange": [0, 19],
     "equipment": [303,6,6]
+  },
+  {
+    "testName": "IowaK16inchFCR+46cm+41cm",
+    "active": true,
+    "shipId": 360,
+    "lvlRange": [86, 99],
+    "moraleRange": [0, 19],
+    "equipment": [300,9,8],
+    "accuracy": -2
   }
 ]
