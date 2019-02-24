@@ -164,5 +164,14 @@
     "moraleRange": [0, 19],
     "equipment": [9,34,33],
     "accuracy": -2
+  },  
+  {
+    "testName": "TesteK14cmK+20.3cmx2Red",
+    "active": true,
+    "shipId": 372,
+    "lvlRange": [84, 93],
+    "moraleRange": [0, 19],
+    "equipment": [310,6,6],
+    "accuracy": 8
   }
 ]
