@@ -117,7 +117,7 @@
   },
   {
     "testName": "NisshinA14cmKRed",
-    "active": true,
+    "active": false,
     "shipId": 586,
     "lvlRange": [84, 99],
     "moraleRange": [0, 19],
