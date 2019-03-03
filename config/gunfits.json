@@ -173,5 +173,14 @@
     "moraleRange": [0, 19],
     "equipment": [310,6,6],
     "accuracy": 8
+  },
+  {
+    "testName": "OoyodoK15.5K+20.3x2Red",
+    "active": true,
+    "shipId": 321,
+    "lvlRange": [89, 99],
+    "moraleRange": [0, 19],
+    "equipment": [235,6,6],
+    "accuracy": 8
   }
 ]
