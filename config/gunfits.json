@@ -1,7 +1,7 @@
 [
   {
     "testName": "NelsonK46cmOrangeRed",
-    "active": true,
+    "active": false,
     "shipId": 576,
     "lvlRange": [81, 99],
     "moraleRange": [0, 32],
@@ -90,7 +90,7 @@
   },
   {
     "testName": "MutsuK41cmK2Red",
-    "active": true,
+    "active": false,
     "shipId": 276,
     "lvlRange": [94, 99],
     "moraleRange": [0, 19],
@@ -108,7 +108,7 @@
   },
   {
     "testName": "NelsonK35.6cmRed",
-    "active": true,
+    "active": false,
     "shipId": 576,
     "lvlRange": [82, 99],
     "moraleRange": [0, 19],
@@ -181,6 +181,15 @@
     "lvlRange": [89, 99],
     "moraleRange": [0, 19],
     "equipment": [235,6,6],
+    "accuracy": 8
+  },
+  {
+    "testName": "NisshinABofors15.2cm+20.3cmx2Red",
+    "active": true,
+    "shipId": 586,
+    "lvlRange": [85, 99],
+    "moraleRange": [0, 19],
+    "equipment": [303,6,6],
     "accuracy": 8
   }
 ]
