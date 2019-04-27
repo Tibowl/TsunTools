@@ -126,7 +126,7 @@
   },
   {
     "testName": "OoyodoK15.5cm+15.2cmTwin+Bofors15.2cm+20.3cmRed",
-    "active": true,
+    "active": false,
     "shipId": 321,
     "lvlRange": [89, 99],
     "moraleRange": [0, 19],
@@ -134,7 +134,7 @@
   },
   {
     "testName": "KitakamiK215.2cmTwin+20.3cmx2Red",
-    "active": true,
+    "active": false,
     "shipId": 119,
     "lvlRange": [89, 99],
     "moraleRange": [0, 19],
@@ -176,7 +176,7 @@
   },
   {
     "testName": "OoyodoK15.5K+20.3x2Red",
-    "active": true,
+    "active": false,
     "shipId": 321,
     "lvlRange": [89, 99],
     "moraleRange": [0, 19],
