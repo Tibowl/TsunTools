@@ -191,5 +191,14 @@
     "moraleRange": [0, 19],
     "equipment": [303,6,6],
     "accuracy": 8
+  },
+  {
+    "testName": "HarunaK216inchMk1AOrange",
+    "active": true,
+    "shipId": 151,
+    "lvlRange": [95, 99],
+    "moraleRange": [29, 32],
+    "equipment": [330],
+    "accuracy": 16
   }
 ]
