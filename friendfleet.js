@@ -18,7 +18,7 @@ Set contents to:
 
 if (!fs.existsSync(`${global.currentDir}/config/edges.json`)) {
     console.error(`Missing config/edges.json, grab them from:
-https://github.com/KC3Kai/KC3Kai/blob/update-cumulative/src/data/edges.json`);
+https://github.com/KC3Kai/KC3Kai/blob/develop/src/data/edges.json`);
     return;
 }
 

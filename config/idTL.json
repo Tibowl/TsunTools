@@ -85,8 +85,8 @@
             "en": "Type 0 Fighter Model 52"
         },
         "22": {
-            "jp": "烈風",
-            "en": "Reppuu"
+            "jp": "試製烈風 後期型",
+            "en": "Prototype Reppuu Late Model"
         },
         "23": {
             "jp": "九九式艦爆",
@@ -209,8 +209,8 @@
             "en": "Ryuusei Kai"
         },
         "53": {
-            "jp": "烈風改",
-            "en": "Reppuu Kai"
+            "jp": "烈風 一一型",
+            "en": "Reppuu Model 11"
         },
         "54": {
             "jp": "彩雲",
@@ -1252,6 +1252,114 @@
             "jp": "SG レーダー(初期型)",
             "en": "SG Radar (Initial Model)"
         },
+        "316": {
+            "jp": "Re.2001 CB改",
+            "en": "Re.2001 CB Kai"
+        },
+        "317": {
+            "jp": "三式弾改",
+            "en": "Type 3 Shell Kai"
+        },
+        "318": {
+            "jp": "41cm連装砲改二",
+            "en": "41cm Twin Gun Mount Kai Ni"
+        },
+        "319": {
+            "jp": "彗星一二型(六三四空/三号爆弾搭載機)",
+            "en": "Suisei Model 12 (634 Air Group w/Type 3 Cluster Bombs)"
+        },
+        "320": {
+            "jp": "彗星一二型(三一号光電管爆弾搭載機)",
+            "en": "Suisei Model 12 (w/Type 31 Photoelectric Fuze Bombs)"
+        },
+        "322": {
+            "jp": "瑞雲改二(六三四空)",
+            "en": "Zuiun Kai Ni (634 Air Group)"
+        },
+        "323": {
+            "jp": "瑞雲改二(六三四空/熟練)",
+            "en": "Zuiun Kai Ni (634 Air Group / Skilled)"
+        },
+        "324": {
+            "jp": "オ号観測機改",
+            "en": "O Type Observation Autogyro Kai"
+        },
+        "325": {
+            "jp": "オ号観測機改二",
+            "en": "O Type Observation Autogyro Kai Ni"
+        },
+        "326": {
+            "jp": "S-51J",
+            "en": "S-51J"
+        },
+        "327": {
+            "jp": "S-51J改",
+            "en": "S-51J Kai"
+        },
+        "328": {
+            "jp": "35.6cm連装砲改",
+            "en": "35.6cm Twin Gun Mount Kai"
+        },
+        "329": {
+            "jp": "35.6cm連装砲改二",
+            "en": "35.6cm Twin Gun Mount Kai Ni"
+        },
+        "330": {
+            "jp": "16inch Mk.I連装砲",
+            "en": "16inch Mk.I Twin Gun Mount"
+        },
+        "331": {
+            "jp": "16inch Mk.V連装砲",
+            "en": "16inch Mk.V Twin Gun Mount"
+        },
+        "332": {
+            "jp": "16inch Mk.VIII連装砲改",
+            "en": "16inch Mk.VIII Twin Gun Mount Kai"
+        },
+        "333": {
+            "jp": "烈風改",
+            "en": "Reppuu Kai"
+        },
+        "334": {
+            "jp": "烈風改(三五二空/熟練)",
+            "en": "Reppuu Kai (352 Air Group / Skilled)"
+        },
+        "335": {
+            "jp": "烈風改(試製艦載型)",
+            "en": "Reppuu Kai (Prototype Carrier-based Model)"
+        },
+        "336": {
+            "jp": "烈風改二",
+            "en": "Reppuu Kai Ni"
+        },
+        "337": {
+            "jp": "烈風改二(一航戦/熟練)",
+            "en": "Reppuu Kai Ni (CarDiv 1 / Skilled)"
+        },
+        "338": {
+            "jp": "烈風改二戊型",
+            "en": "Reppuu Kai Ni Model E"
+        },
+        "339": {
+            "jp": "烈風改二戊型(一航戦/熟練)",
+            "en": "Reppuu Kai Ni Model E (CarDiv 1 / Skilled)"
+        },
+        "340": {
+            "jp": "152mm/55 三連装速射砲",
+            "en": "152mm/55 Triple Rapid Fire Gun Mount"
+        },
+        "341": {
+            "jp": "152mm/55 三連装速射砲改",
+            "en": "152mm/55 Triple Rapid Fire Gun Mount Kai"
+        },
+        "342": {
+            "jp": "流星改(一航戦)",
+            "en": "流星改(一航戦)"
+        },
+        "343": {
+            "jp": "流星改(一航戦/熟練)",
+            "en": "流星改(一航戦/熟練)"
+        },
         "501": {
             "jp": "5inch単装砲",
             "en": "5inch Single Gun Mount"
@@ -1615,6 +1723,14 @@
         "591": {
             "jp": "深海5inch単装砲 Mk.30",
             "en": "Abyssal 5inch Single Gun Mount Mk.30"
+        },
+        "592": {
+            "jp": "深海16inch Mk.VIII連装砲改",
+            "en": "Abyssal 16inch Mk.VIII Twin Gun Mount Kai"
+        },
+        "593": {
+            "jp": "高速深海魚雷 mod.3",
+            "en": "High-speed Abyssal Torpedo mod.3"
         }
     },
     "ships": {
@@ -3062,6 +3178,14 @@
             "jp": "国後改",
             "en": "Kunashiri Kai"
         },
+        "378": {
+            "jp": "八丈改",
+            "en": "Hachijou Kai"
+        },
+        "379": {
+            "jp": "石垣改",
+            "en": "Ishigaki Kai"
+        },
         "380": {
             "jp": "大鷹改",
             "en": "Taiyou Kai"
@@ -3694,6 +3818,10 @@
             "jp": "伊勢改二",
             "en": "Ise Kai Ni"
         },
+        "554": {
+            "jp": "日向改二",
+            "en": "Hyuuga Kai Ni"
+        },
         "555": {
             "jp": "瑞鳳改二",
             "en": "Zuihou Kai Ni"
@@ -3720,7 +3848,7 @@
         },
         "561": {
             "jp": "Samuel B.Roberts",
-            "en": "Samuel B.Roberts"
+            "en": "Samuel B. Roberts"
         },
         "562": {
             "jp": "Johnston",
@@ -3729,6 +3857,10 @@
         "563": {
             "jp": "巻雲改二",
             "en": "Makigumo Kai Ni"
+        },
+        "564": {
+            "jp": "風雲改二",
+            "en": "Kazagumo Kai Ni"
         },
         "565": {
             "jp": "福江",
@@ -3749,6 +3881,10 @@
         "571": {
             "jp": "Nelson",
             "en": "Nelson"
+        },
+        "573": {
+            "jp": "陸奥改二",
+            "en": "Mutsu Kai Ni"
         },
         "574": {
             "jp": "Gotland",
@@ -3778,9 +3914,41 @@
             "jp": "峯雲",
             "en": "Minegumo"
         },
+        "584": {
+            "jp": "八丈",
+            "en": "Hachijou"
+        },
+        "585": {
+            "jp": "石垣",
+            "en": "Ishigaki"
+        },
         "586": {
             "jp": "日進甲",
             "en": "Nisshin A"
+        },
+        "590": {
+            "jp": "G.Garibaldi",
+            "en": "G. Garibaldi"
+        },
+        "591": {
+            "jp": "金剛改二丙",
+            "en": "Kongou Kai Ni C"
+        },
+        "594": {
+            "jp": "赤城改二",
+            "en": "Akagi Kai Ni"
+        },
+        "596": {
+            "jp": "Fletcher",
+            "en": "Fletcher"
+        },
+        "599": {
+            "jp": "赤城改二戊",
+            "en": "Akagi Kai Ni E"
+        },
+        "601": {
+            "jp": "Colorado",
+            "en": "Colorado"
         },
         "605": {
             "jp": "Luigi Torelli改",
@@ -3804,7 +3972,7 @@
         },
         "681": {
             "jp": "Samuel B.Roberts改",
-            "en": "Samuel B.Roberts Kai"
+            "en": "Samuel B. Roberts Kai"
         },
         "685": {
             "jp": "福江改",
@@ -3829,6 +3997,18 @@
         "690": {
             "jp": "日進改",
             "en": "Nisshin Kai"
+        },
+        "691": {
+            "jp": "G.Garibaldi改",
+            "en": "G. Garibaldi Kai"
+        },
+        "692": {
+            "jp": "Fletcher改",
+            "en": "Fletcher Kai"
+        },
+        "1496": {
+            "jp": "Colorado改",
+            "en": "Colorado Kai"
         }
     }
 }
