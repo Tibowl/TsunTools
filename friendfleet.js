@@ -26,7 +26,7 @@ if (!fs.existsSync(`${global.currentDir}/config/idTL.json`)) {
     console.error(`Missing config/idTL.json, you can generate them with KC3 by executing:
 let tls = {"equip":{}, "ships":{}};
 Object.values(KC3Master.all_ships()).filter((s) => s.api_id < 700).forEach((s) => {tls.ships[s.api_id] = { "jp": KC3Master.ship(s.api_id).api_name, "en": KC3Meta.shipName(KC3Master.ship(s.api_id).api_name)}});
-Object.values(KC3Master.all_slotitems()).forEach((s) => {tls.equip[s.api_id] = { "jp": KC3Master.slotitem(s.api_id).api_name, "en": KC3Meta.gearName(KC3Master.slotitem(s.api_id).api_name)}});
+Object.values(KC3Master.all_slotitems()).forEach((s) => {tls.equip[s.api_id] = { "icon": KC3Master.slotitem(s.api_id).api_type[3], "jp": KC3Master.slotitem(s.api_id).api_name, "en": KC3Meta.gearName(KC3Master.slotitem(s.api_id).api_name)}});
 copy(JSON.stringify(tls,0,4));`);
     return;
 }
@@ -55,7 +55,8 @@ if(process.argv.length <= 2) {
     return;
 }
 
-var area = process.argv[2];
+let area = process.argv[2];
+let simpleEquip = process.argv.length >= 3 ? process.argv[3] : false;
 
 const client = new Client(dblogin);
 client.connect();
@@ -104,24 +105,20 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
 
     console.log(`Found ${friendFleets.length} fleets.`)
 
-    let knownUniq =  [/*
-        `{"ship":[136,321,369,490],"equip":[[276,276,276,140,-1],[235,235,275,101,-1],[266,286,88,-1,-1],[286,286,286,-1,-1]]}`,
-        `{"ship":[349,301,542,563],"equip":[[267,286,88,-1,-1],[266,286,88,-1,-1],[267,286,240,-1,-1],[286,286,286,-1,-1]]}`,
-        `{"ship":[349,301,542,563],"equip":[[267,286,88,-1,-1],[266,266,74,-1,-1],[267,267,101,-1,-1],[267,286,240,-1,-1]]}`,
-        `{"ship":[536,383,386,373],"equip":[[154,255,259,-1,-1],[229,229,88,-1,-1],[229,229,88,-1,-1],[267,286,88,-1,-1]]}`,
-        `{"ship":[536,383,386],"equip":[[154,255,259,-1,-1],[229,229,88,-1,-1],[229,229,88,-1,-1]]}`,
-        `{"ship":[687,327,328],"equip":[[266,266,74,-1,-1],[266,266,101,-1,-1],[266,15,88,-1,-1]]}`,
-        `{"ship":[687,498],"equip":[[266,266,101,-1,-1],[266,286,88,-1,-1]]}`,
-        `{"ship":[557,354,355,586],"equip":[[122,286,88,-1,-1],[266,286,88,-1,-1],[266,286,88,-1,-1],[309,309,309,101,-1]]}`,
-        `{"ship":[373,688,680],"equip":[[267,15,88,-1,-1],[267,15,88,-1,-1],[286,286,286,-1,-1]]},`,
-        `{"ship":[686,359],"equip":[[267,267,101,-1,-1],[286,15,286,-1,-1]]}`,
-        `{"ship":[373,688,680],"equip":[[267,15,88,-1,-1],[267,15,88,-1,-1],[286,286,286,-1,-1]]}`,
-        `{"ship":[688,373],"equip":[[267,286,88,-1,-1],[286,286,286,-1,-1]]}`,
-        `{"ship":[330,329,294,690],"equip":[[122,122,74,-1,-1],[266,286,88,-1,-1],[266,286,88,-1,-1],[310,310,101,-1,-1]]}`,
-        `{"ship":[373,680,688],"equip":[[267,286,88,-1,-1],[267,286,88,-1,-1],[286,286,286,-1,-1]]}`,
-        `{"ship":[150,152,323,144],"equip":[[7,7,7,74,-1],[7,7,7,101,-1],[266,266,15,-1,-1],[15,15,15,-1,-1]]}`,
-        `{"ship":[208,195],"equip":[[63,63,101,-1,-1],[285,285,285,-1,-1]]}`,
-        `{"ship":[498,687],"equip":[[266,286,88,-1,-1],[286,286,286,-1,-1]]}`*/
+    let knownUniq =  [
+        /*
+        `{"ship":[119,118,356,235,407],"equip":[[285,285,309,-1,-1],[285,285,309,-1,-1],[310,310,101,74,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[307,558,557,464,344,419],"equip":[[139,139,74,-1,-1],[266,266,101,-1,-1],[266,15,88,-1,-1],[266,15,88,-1,-1],[267,15,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[314,228,419,235,407],"equip":[[65,65,74,-1,-1],[266,266,101,-1,-1],[63,15,88,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[119,235,407],"equip":[[285,285,309,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[119,558,557,228],"equip":[[285,285,74,-1,-1],[266,266,101,-1,-1],[266,15,88,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[307,558,557,537,228],"equip":[[139,139,74,-1,-1],[266,266,101,-1,-1],[266,15,88,-1,-1],[122,15,88,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[314,407,235],"equip":[[65,65,74,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[419,407,235],"equip":[[63,63,101,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[119,235,407,228],"equip":[[285,285,309,-1,-1],[63,63,101,-1,-1],[63,125,88,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[419,228,407,235],"equip":[[63,63,101,-1,-1],[266,15,88,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[307,464,344,419],"equip":[[139,139,74,-1,-1],[266,266,101,-1,-1],[267,15,88,-1,-1],[125,125,125,-1,-1]]}`,*/
+
     ]
     friendFleets = friendFleets.filter((a) => knownUniq.indexOf(a.uniqueness) < 0)
 
@@ -150,10 +147,13 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
     <col width="130px">
     <col width="50px">
     <col width="100px">
-    <col width="300px">
+    ${simpleEquip ? `
+    <col width="180px">
+    <col width="120px">
+    ` : `<col width="300px">`}
         
     <tr>
-        <th colspan="4">Map: ${maplist}</th>
+        <th colspan="${simpleEquip ? 5 : 4}">Map: ${maplist}</th>
     </tr>
 `
         for (let ind in friendfleet.ship) {
@@ -180,18 +180,25 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
             <img src="https://raw.githubusercontent.com/KC3Kai/KC3Kai/master/src/assets/img/stats/ar.png">
             ${range(friendfleet.stats[ind][3])}
         </td>
+        ${simpleEquip ? `
+        <td style="background-color:#ccfaff">
+            ${equip.map((e) => `<img height="25px" src="https://raw.githubusercontent.com/KC3Kai/KC3Kai/master/src/assets/img/items_p2/${idTL.equip[e].icon}.png">`).join("\n")}
+        </td>` : ""}
     </tr>
-    <tr>
-        <td style="vertical-align: top" rowspan="${equip.length}">${idTL.ships[shipId].jp}<br>${idTL.ships[shipId].en}</td>`
-            let first = true;
-            for (let e of equip) {
+`
+            if(!simpleEquip) {
                 fleetHTML += `
-${first ? `` : `    <tr>
-`}        <td><img height="40px" src="http://203.104.209.23/${getPath(e, "slot", "card", "png")}"></td> 
-        <td style="vertical-align: top" colspan="2">${idTL.equip[e].jp}<br>${idTL.equip[e].en}</td>
-    </tr>`
+        <tr>
+            <td style="vertical-align: top" rowspan="${equip.length}">${idTL.ships[shipId].jp}<br>${idTL.ships[shipId].en}</td>`
+                let first = true;
+                for (let e of equip) {
+                    fleetHTML += `
+    ${first ? `` : `    <tr>
+    `}        <td><img height="40px" src="http://203.104.209.23/${getPath(e, "slot", "card", "png")}"></td> 
+            <td style="vertical-align: top" colspan="2">${idTL.equip[e].jp}<br>${idTL.equip[e].en}</td>
+        </tr>`
+                }
             }
-
         } 
         fleetHTML += `
 </table>
