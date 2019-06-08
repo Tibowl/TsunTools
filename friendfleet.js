@@ -56,7 +56,8 @@ if(process.argv.length <= 2) {
 }
 
 let area = process.argv[2];
-let simpleEquip = process.argv.length >= 3 ? process.argv[3] : false;
+let simpleEquip = process.argv.length >= 3 ? (process.argv[3] == "1") : false;
+let ignoreIgnore = process.argv.length >= 4 ? (process.argv[4] == "1") : false;
 
 const client = new Client(dblogin);
 client.connect();
@@ -93,12 +94,18 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
             foundFleet.lvl = foundFleet.lvl.map((val, ind) => [Math.min(val[0], fleet.lvl[ind]), Math.max(val[1], fleet.lvl[ind])])
             foundFleet.stats = foundFleet.stats.map((sh, ind) => sh.map((val, inx) => [Math.min(val[0], fleet.stats[ind][inx]), Math.max(val[1], fleet.stats[ind][inx])]))
             foundFleet.maps = foundFleet.maps.sort();
+            if(fleet.requestType != undefined && !foundFleet.requestType.includes(fleet.requestType))
+                foundFleet.requestType.push(fleet.requestType);
         } else {
             fleet.uniqueness = uniqueness;
             fleet.maps = [map];
             fleet.nowhp = fleet.nowhp.map((a) => [a,a]);
             fleet.lvl = fleet.lvl.map((a) => [a,a]);
             fleet.stats = fleet.stats.map((b) => b.map((a) => [a,a]));
+            if(fleet.requestType == undefined)
+                fleet.requestType = []
+            else
+                fleet.requestType = [fleet.requestType]
             friendFleets.push(fleet);
         }
     }
@@ -106,7 +113,6 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
     console.log(`Found ${friendFleets.length} fleets.`)
 
     let knownUniq =  [
-        /*
         `{"ship":[119,118,356,235,407],"equip":[[285,285,309,-1,-1],[285,285,309,-1,-1],[310,310,101,74,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
         `{"ship":[307,558,557,464,344,419],"equip":[[139,139,74,-1,-1],[266,266,101,-1,-1],[266,15,88,-1,-1],[266,15,88,-1,-1],[267,15,88,-1,-1],[125,125,125,-1,-1]]}`,
         `{"ship":[314,228,419,235,407],"equip":[[65,65,74,-1,-1],[266,266,101,-1,-1],[63,15,88,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
@@ -117,19 +123,40 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
         `{"ship":[419,407,235],"equip":[[63,63,101,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
         `{"ship":[119,235,407,228],"equip":[[285,285,309,-1,-1],[63,63,101,-1,-1],[63,125,88,-1,-1],[15,15,15,-1,-1]]}`,
         `{"ship":[419,228,407,235],"equip":[[63,63,101,-1,-1],[266,15,88,-1,-1],[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
-        `{"ship":[307,464,344,419],"equip":[[139,139,74,-1,-1],[266,266,101,-1,-1],[267,15,88,-1,-1],[125,125,125,-1,-1]]}`,*/
-
+        `{"ship":[307,464,344,419],"equip":[[139,139,74,-1,-1],[266,266,101,-1,-1],[267,15,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[146,231,407,547],"equip":[[15,15,15,-1,-1],[63,74,101,-1,-1],[63,125,88,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[547,231,407],"equip":[[268,74,101,-1,-1],[63,125,88,-1,-1],[63,125,88,-1,-1]]}`,
+        `{"ship":[513,579,395,147],"equip":[[232,232,232,74,-1],[303,303,303,101,-1],[282,282,282,283,-1],[63,285,88,-1,-1]]}`,
+        `{"ship":[152,566,567,396,689,681],"equip":[[329,329,317,74,-1],[266,15,88,-1,-1],[266,15,88,-1,-1],[255,257,259,-1,-1],[313,314,315,-1,-1],[284,314,315,-1,-1]]}`,
+        `{"ship":[396,689,681],"equip":[[255,257,259,-1,-1],[313,314,315,-1,-1],[284,314,315,-1,-1]]}`,
+        `{"ship":[231,407],"equip":[[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[146,231,407],"equip":[[15,15,15,-1,-1],[63,63,101,-1,-1],[63,125,88,-1,-1]]}`,
+        `{"ship":[566,567,464,198],"equip":[[266,15,88,-1,-1],[266,15,88,-1,-1],[266,266,167,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[547,192,231,407,146],"equip":[[91,91,268,-1,-1],[90,90,74,101,-1],[63,125,88,-1,-1],[63,125,88,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[396,681,591,200,566,567],"equip":[[255,257,259,-1,-1],[284,314,315,-1,-1],[329,329,317,74,-1],[91,91,101,-1,-1],[266,15,88,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[150,152,200,360,396,681],"equip":[[329,329,317,74,-1],[329,329,317,101,-1],[91,91,167,-1,-1],[183,183,183,279,-1],[255,257,259,-1,-1],[284,314,315,-1,-1]]}`,
+        `{"ship":[396,689,681,200,566,567],"equip":[[255,257,259,-1,-1],[313,314,315,-1,-1],[284,314,315,-1,-1],[91,91,167,-1,-1],[266,15,88,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[513,395,147,579,231,407],"equip":[[232,232,232,101,-1],[282,282,282,283,-1],[63,285,88,-1,-1],[303,303,303,74,-1],[63,285,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[513,395,147,231,407],"equip":[[232,232,232,74,-1],[282,282,283,101,-1],[63,285,88,-1,-1],[63,285,88,-1,-1],[125,125,125,-1,-1]]}`,
+        `{"ship":[200,464,198],"equip":[[91,91,101,-1,-1],[266,266,167,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[513,395,147],"equip":[[232,232,232,74,-1],[282,282,282,101,-1],[63,285,88,-1,-1]]}`,
+        `{"ship":[360,681,464,198],"equip":[[183,183,183,279,-1],[284,314,315,-1,-1],[266,266,167,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[566,567],"equip":[[266,15,88,-1,-1],[266,15,88,-1,-1]]}`,
+        `{"ship":[689,681],"equip":[[313,314,315,-1,-1],[284,314,315,-1,-1]]}`,
+        `{"ship":[547,146],"equip":[[268,74,101,-1,-1],[15,15,15,-1,-1]]}`,
+        `{"ship":[395,147],"equip":[[282,282,74,101,-1],[285,285,285,-1,-1]]}`,
+        `{"ship":[231,232],"equip":[[63,125,88,-1,-1],[125,125,125,-1,-1]]}`,
     ]
-    friendFleets = friendFleets.filter((a) => knownUniq.indexOf(a.uniqueness) < 0)
+    friendFleets = friendFleets.filter((a) => knownUniq.indexOf(a.uniqueness) < 0 || ignoreIgnore)
 
     let count = (a) => a.ship.length + a.equip.map((a) => a.filter((b) => b>0).length).reduce((a,b) => a+b,0)
-    friendFleets = friendFleets.sort((a, b) => (a.maps[0].localeCompare(b.maps[0])) || (a.ship[0] - b.ship[0]) || (count(b) - count(a)))
+    friendFleets = friendFleets.sort((a, b) => (a.maps.sort()[0].localeCompare(b.maps.sort()[0])) || (a.ship[0] - b.ship[0]) || (count(b) - count(a)))
     let previousMaps = undefined;
     let fleetHTML = ``;
     let c = 0;
     for (let friendfleet of friendFleets) {
         console.log(friendfleet.uniqueness)
-        let maplist = friendfleet.maps.sort().join(", ");
+        let maplist = friendfleet.maps.sort().join(", ").replace(`${area}-`, "E");
         if (previousMaps == undefined)
             previousMaps = maplist;
         if (previousMaps != maplist) {
@@ -148,12 +175,13 @@ client.query(`SELECT DISTINCT map, node, variation, fleet::text, uniquekey FROM 
     <col width="50px">
     <col width="100px">
     ${simpleEquip ? `
-    <col width="180px">
+    <col width="185px">
     <col width="120px">
     ` : `<col width="300px">`}
         
     <tr>
-        <th colspan="${simpleEquip ? 5 : 4}">Map: ${maplist}</th>
+        <th colspan=2>`/*Appeared for: ${friendfleet.requestType.length > 0 ? friendfleet.requestType.map((k) => k == 0 ? "F2P" : "P2W").join(", ") : "???"}*/+`</th>
+        <th colspan="${simpleEquip ? 3 : 2}">Map: ${maplist}</th>
     </tr>
 `
         for (let ind in friendfleet.ship) {
