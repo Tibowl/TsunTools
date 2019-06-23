@@ -200,5 +200,13 @@
     "moraleRange": [29, 32],
     "equipment": [330],
     "accuracy": 16
+  },
+  {
+    "testName": "Iowa16inchMk7+46cmNormal",
+    "active": true,
+    "shipId": 440,
+    "lvlRange": [38, 43],
+    "moraleRange": [33, 49],
+    "equipment": [161,9]
   }
 ]
