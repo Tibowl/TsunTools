@@ -306,7 +306,7 @@ client.query(`SELECT * FROM Fits WHERE testName = $1 ORDER BY id`, [test.testNam
     console.log(`Found ${samples} samples: CL0/CL1/CL2: ${cl.join("/")}`);
     console.log(`Hit rate ${percentage(hit / samples)}, std. error ${percentage(error(hit/samples, samples))}`);
     console.log();
-    console.log(`Bounds: ${bounds(hit, samples).map(percentage).join(" ~ ")}`);
+    console.log(`Bounds: ${bounds(hit, samples).map(p => percentage(p, 1)).join(" ~ ")}`);
     console.log(`Theoretical difference: ${percentage((hit / samples) - predictedAcc, 2)} (Error bounds: ${bounds(hit, samples).map((p) => percentage(p - predictedAcc, 1)).join(" ~ ")})`);
 	client.end();
 });
