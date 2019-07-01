@@ -205,7 +205,7 @@
     "testName": "Iowa16inchMk7+46cmNormal",
     "active": true,
     "shipId": 440,
-    "lvlRange": [38, 43],
+    "lvlRange": [38, 48],
     "moraleRange": [33, 49],
     "equipment": [161,9]
   }
