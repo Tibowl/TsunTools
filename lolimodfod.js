@@ -65,13 +65,13 @@ client.query(`SELECT * FROM lolimodfod ORDER BY id`, [], (err, data) => {
         //if(entry.modids.filter(id => [162,499].indexOf(id) == -1).length > 0) continue;
 
         // Count filter
-        if(types.length != 2) continue;
+        if(types.length != 1) continue;
 
         // Same ctype only
         if(entry.modids.map(id => shipdata[id].sclass).filter(sc => sc != shipdata[entry.modids[0]].sclass).length > 0) continue
 
-        //let lvl = entry.modlvls.map(lvl => Math.floor(lvl / 10)+"X").join(",");
-        let lvl = entry.modlvls.join(",");
+        let lvl = entry.modlvls.map(lvl => Math.floor(lvl / 10)+"X").join(",");
+        //let lvl = entry.modlvls.join(",");
         if(stats[lvl] == undefined) stats[lvl] = {
             "hp": [0, 0],
             "asw": [0, 0],
@@ -80,6 +80,9 @@ client.query(`SELECT * FROM lolimodfod ORDER BY id`, [], (err, data) => {
 
         for(let stat of [[4,"luck"],[5,"hp"],[6,"asw"]]) {
             let statBefore = entry.modbefore[stat[0]], statAfter = entry.modafter[stat[0]], statLeft = entry.modleft[stat[0]];
+            if(statAfter > statBefore)
+                statLeft = statLeft + statAfter - statBefore
+
             if(statLeft > 0) {
                 stats[lvl][stat[1]][1] += 1;
                 if(statAfter > statBefore)
