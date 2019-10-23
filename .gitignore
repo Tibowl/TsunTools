@@ -74,5 +74,6 @@ typings/
 
 package-lock.json
 config/dblogin.json
+config/exped.json
 *.arff
 *.html
