@@ -77,7 +77,12 @@ client.query(`SELECT * FROM expedition WHERE expedid > 0 ORDER by ID`, [], (err,
         }
         const basicBonus = (normalCount + tokuCount + bonusShipCount) * 0.05 + t89Count * 0.02 + t2Count * 0.01;
         const cappedBasicBonus = Math.min(0.2, basicBonus);
-        const tokuCap = (tokuCount) <= 3 ? 0.05 : 0.054;
+        const tokuCap = [
+            [0,     0,     0,     0,     0],
+            [0.020, 0.020, 0.020, 0.020, 0.020],
+            [0.040, 0.040, 0.040, 0.040, 0.040],
+            [0.050, 0.050, 0.052, 0.054, 0.054],
+            [0.054, 0.056, 0.058, 0.059, 0.060]][Math.min(tokuCount, 4)][Math.min(normalCount, 4)];
         const tokuBonus = Math.min(tokuCap, 0.02 * tokuCount);
         const landingCraftCount = normalCount + t89Count + t2Count + tokuCount
         const improveBonus = landingCraftCount > 0 ? 0.01 * improveCount * cappedBasicBonus / landingCraftCount : 0.0;
