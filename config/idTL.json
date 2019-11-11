@@ -1693,12 +1693,72 @@
         "342": {
             "icon": 8,
             "jp": "流星改(一航戦)",
-            "en": "流星改(一航戦)"
+            "en": "Ryuusei Kai (CarDiv 1)"
         },
         "343": {
             "icon": 8,
             "jp": "流星改(一航戦/熟練)",
-            "en": "流星改(一航戦/熟練)"
+            "en": "Ryuusei Kai (CarDiv 1 / Skilled)"
+        },
+        "344": {
+            "icon": 46,
+            "jp": "九七式艦攻改 試製三号戊型(空六号電探改装備機)",
+            "en": "Prototype Type 97 Torpedo Bomber Kai Type 3 Model E (w/ Type 6 Airborne Radar Kai)"
+        },
+        "345": {
+            "icon": 46,
+            "jp": "九七式艦攻改(熟練) 試製三号戊型(空六号電探改装備機)",
+            "en": "Prototype Type 97 Torpedo Bomber Kai (Skilled) Type 3 Model E (w/ Type 6 Airborne Radar Kai)"
+        },
+        "346": {
+            "icon": 17,
+            "jp": "二式12cm迫撃砲改",
+            "en": "Type 2 12cm Mortar Kai"
+        },
+        "347": {
+            "icon": 17,
+            "jp": "二式12cm迫撃砲改 集中配備",
+            "en": "Type 2 12cm Mortar Kai (Concentrated Deployment)"
+        },
+        "348": {
+            "icon": 31,
+            "jp": "艦載型 四式20cm対地噴進砲",
+            "en": "Shipborne Model Type 4 20cm Anti-ground Rocket Launcher"
+        },
+        "349": {
+            "icon": 31,
+            "jp": "",
+            "en": ""
+        },
+        "350": {
+            "icon": 38,
+            "jp": "Me163B",
+            "en": "Me163B"
+        },
+        "351": {
+            "icon": 38,
+            "jp": "試製 秋水",
+            "en": "Prototype Shuusui"
+        },
+        "352": {
+            "icon": 38,
+            "jp": "秋水",
+            "en": "Shuusui"
+        },
+        "353": {
+            "icon": 6,
+            "jp": "Fw190 A-5改(熟練)",
+            "en": "Fw190 A-5 Kai (Skilled)"
+        },
+        "354": {
+            "icon": 38,
+            "jp": "Fw190 D-9",
+            "en": "Fw190 D-9"
+        },
+        "355": {
+            "icon": 20,
+            "jp": "M4A1 DD",
+            "en": "M4A1 DD"
         },
         "501": {
             "icon": 1,
@@ -2164,6 +2224,36 @@
             "icon": 5,
             "jp": "高速深海魚雷 mod.3",
             "en": "High-speed Abyssal Torpedo mod.3"
+        },
+        "594": {
+            "icon": 7,
+            "jp": "深海空要塞(偵察型)",
+            "en": "Abyssal Sky Fortress (Reconnaissance Model)"
+        },
+        "595": {
+            "icon": 7,
+            "jp": "深海空要塞Ace(偵察型)",
+            "en": "Abyssal Sky Fortress Ace (Reconnaissance Model)"
+        },
+        "596": {
+            "icon": 2,
+            "jp": "深海6inch三連装新型速射砲",
+            "en": "Abyssal New Model 6inch Triple Rapid Fire Gun Mount"
+        },
+        "597": {
+            "icon": 7,
+            "jp": "深海空要塞(重爆型)",
+            "en": "Abyssal Sky Fortress (Heavy Bomber Model)"
+        },
+        "598": {
+            "icon": 7,
+            "jp": "深海空要塞Ace(重爆型)",
+            "en": "Abyssal Sky Fortress Ace (Heavy Bomber Model)"
+        },
+        "599": {
+            "icon": 16,
+            "jp": "深海4.7inch砲 Mk.XII",
+            "en": "Abyssal 4.7inch Gun Mk.XII"
         }
     },
     "ships": {
@@ -2793,7 +2883,7 @@
         },
         "161": {
             "jp": "あきつ丸",
-            "en": "Akitsumaru"
+            "en": "Akitsu Maru"
         },
         "162": {
             "jp": "神威",
@@ -2813,7 +2903,7 @@
         },
         "166": {
             "jp": "あきつ丸改",
-            "en": "Akitsumaru Kai"
+            "en": "Akitsu Maru Kai"
         },
         "167": {
             "jp": "磯風",
@@ -3589,7 +3679,7 @@
         },
         "372": {
             "jp": "Commandant Teste改",
-            "en": "Commandant Teste Kai"
+            "en": "Comdt. Teste Kai"
         },
         "373": {
             "jp": "藤波改",
@@ -3833,7 +3923,7 @@
         },
         "436": {
             "jp": "呂500",
-            "en": "RO-500"
+            "en": "Ro-500"
         },
         "437": {
             "jp": "暁改二",
@@ -4049,7 +4139,7 @@
         },
         "491": {
             "jp": "Commandant Teste",
-            "en": "Commandant Teste"
+            "en": "Comdt. Teste"
         },
         "492": {
             "jp": "Richelieu",
@@ -4135,9 +4225,13 @@
             "jp": "Jervis",
             "en": "Jervis"
         },
+        "520": {
+            "jp": "Janus",
+            "en": "Janus"
+        },
         "521": {
             "jp": "春日丸",
-            "en": "Kasugamaru"
+            "en": "Kasuga Maru"
         },
         "524": {
             "jp": "択捉",
@@ -4359,6 +4453,14 @@
             "jp": "日進甲",
             "en": "Nisshin A"
         },
+        "587": {
+            "jp": "海風改二",
+            "en": "Umikaze Kai Ni"
+        },
+        "589": {
+            "jp": "L.d.S.D.d.Abruzzi",
+            "en": "Duca degli Abruzzi"
+        },
         "590": {
             "jp": "G.Garibaldi",
             "en": "G. Garibaldi"
@@ -4390,6 +4492,22 @@
         "606": {
             "jp": "伊400改",
             "en": "I-400 Kai"
+        },
+        "611": {
+            "jp": "御蔵",
+            "en": "Mikura"
+        },
+        "614": {
+            "jp": "Grecale",
+            "en": "Grecale"
+        },
+        "616": {
+            "jp": "御蔵改",
+            "en": "Mikura Kai"
+        },
+        "619": {
+            "jp": "Grecale改",
+            "en": "Grecale Kai"
         },
         "678": {
             "jp": "日振改",
@@ -4438,6 +4556,14 @@
         "692": {
             "jp": "Fletcher改",
             "en": "Fletcher Kai"
+        },
+        "693": {
+            "jp": "L.d.S.D.d.Abruzzi改",
+            "en": "Duca degli Abruzzi Kai"
+        },
+        "893": {
+            "jp": "Janus改",
+            "en": "Janus Kai"
         },
         "1496": {
             "jp": "Colorado改",

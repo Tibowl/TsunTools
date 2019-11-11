@@ -3,7 +3,7 @@ global.specialCombines = {
     "aDD": ["DE","DD"],
     "aCL": ["CL","CLT"],
     "aDDCL": ["DD","DE","CL"],
-    //"aC": ["CL","CLT","CA","CAV","FBB","BB","BBV"],
+    "aC": ["CL","CLT","CA","CAV","FBB","BB","BBV"],
     "aCA": ["CA","CAV"],
     "aBB": ["FBB","BB","BBV"],
     "aCV": ["CVL","CV","CVB"],
