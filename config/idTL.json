@@ -1727,8 +1727,8 @@
         },
         "349": {
             "icon": 31,
-            "jp": "",
-            "en": ""
+            "jp": "四式20cm対地噴進砲 集中配備",
+            "en": "Type 4 20cm Anti-ground Rocket Launcher (Concentrated Deployment)"
         },
         "350": {
             "icon": 38,
@@ -1759,6 +1759,46 @@
             "icon": 20,
             "jp": "M4A1 DD",
             "en": "M4A1 DD"
+        },
+        "356": {
+            "icon": 2,
+            "jp": "8inch三連装砲 Mk.9",
+            "en": "8inch Triple Gun Mount Mk.9"
+        },
+        "357": {
+            "icon": 2,
+            "jp": "8inch三連装砲 Mk.9 mod.2",
+            "en": "8inch Triple Gun Mount Mk.9 mod.2"
+        },
+        "358": {
+            "icon": 16,
+            "jp": "5inch 単装高角砲群",
+            "en": "5inch Single High-angle Gun Mount Battery"
+        },
+        "359": {
+            "icon": 2,
+            "jp": "6inch 連装速射砲 Mk.XXI",
+            "en": "6inch Twin Rapid Fire Gun Mount Mk.XXI"
+        },
+        "360": {
+            "icon": 2,
+            "jp": "Bofors 15cm連装速射砲 Mk.9 Model 1938",
+            "en": "Bofors 15cm Twin Rapid Fire Gun Mount Mk.9 Model 1938"
+        },
+        "361": {
+            "icon": 2,
+            "jp": "Bofors 15cm連装速射砲 Mk.9改+単装速射砲 Mk.10改 Model 1938",
+            "en": "Bofors 15cm Twin Rapid Fire Gun Mount Mk.9 Kai + Single Rapid Fire Gun Mount Mk.10 Kai Model 1938"
+        },
+        "362": {
+            "icon": 16,
+            "jp": "5inch連装両用砲(集中配備)",
+            "en": "5inch Twin Dual-purpose Gun Mount (Concentrated Deployment)"
+        },
+        "363": {
+            "icon": 16,
+            "jp": "GFCS Mk.37+5inch連装両用砲(集中配備)",
+            "en": "GFCS Mk.37 + 5inch Twin Dual-purpose Gun Mount (Concentrated Deployment)"
         },
         "501": {
             "icon": 1,
@@ -2254,6 +2294,26 @@
             "icon": 16,
             "jp": "深海4.7inch砲 Mk.XII",
             "en": "Abyssal 4.7inch Gun Mk.XII"
+        },
+        "600": {
+            "icon": 2,
+            "jp": "深海8inch連装速射砲",
+            "en": "Abyssal 8inch Twin Rapid Fire Gun Mount"
+        },
+        "601": {
+            "icon": 2,
+            "jp": "深海8inch三連装砲 Mk.9",
+            "en": "Abyssal 8inch Triple Gun Mount Mk.9"
+        },
+        "602": {
+            "icon": 16,
+            "jp": "深海5inch連装両用砲(集中配備)",
+            "en": "Abyssal 5inch Twin Dual-purpose Gun Mount (Concentrated Deployment)"
+        },
+        "603": {
+            "icon": 11,
+            "jp": "深海対空レーダーMark.III+FCS",
+            "en": "Abyssal Air Radar Mark.III + FCS"
         }
     },
     "ships": {
@@ -4405,6 +4465,10 @@
             "jp": "黒潮改二",
             "en": "Kuroshio Kai Ni"
         },
+        "570": {
+            "jp": "平戸",
+            "en": "Hirato"
+        },
         "571": {
             "jp": "Nelson",
             "en": "Nelson"
@@ -4424,6 +4488,10 @@
         "576": {
             "jp": "Nelson改",
             "en": "Nelson Kai"
+        },
+        "578": {
+            "jp": "朝霜改二",
+            "en": "Asashimo Kai Ni"
         },
         "579": {
             "jp": "Gotland改",
@@ -4459,7 +4527,7 @@
         },
         "589": {
             "jp": "L.d.S.D.d.Abruzzi",
-            "en": "Duca degli Abruzzi"
+            "en": "Abruzzi"
         },
         "590": {
             "jp": "G.Garibaldi",
@@ -4473,17 +4541,33 @@
             "jp": "赤城改二",
             "en": "Akagi Kai Ni"
         },
+        "595": {
+            "jp": "Houston",
+            "en": "Houston"
+        },
         "596": {
             "jp": "Fletcher",
             "en": "Fletcher"
+        },
+        "597": {
+            "jp": "Atlanta",
+            "en": "Atlanta"
         },
         "599": {
             "jp": "赤城改二戊",
             "en": "Akagi Kai Ni E"
         },
+        "600": {
+            "jp": "Houston改",
+            "en": "Houston Kai"
+        },
         "601": {
             "jp": "Colorado",
             "en": "Colorado"
+        },
+        "604": {
+            "jp": "De Ruyter",
+            "en": "De Ruyter"
         },
         "605": {
             "jp": "Luigi Torelli改",
@@ -4493,9 +4577,17 @@
             "jp": "伊400改",
             "en": "I-400 Kai"
         },
+        "609": {
+            "jp": "De Ruyter改",
+            "en": "De Ruyter Kai"
+        },
         "611": {
             "jp": "御蔵",
             "en": "Mikura"
+        },
+        "613": {
+            "jp": "Perth",
+            "en": "Perth"
         },
         "614": {
             "jp": "Grecale",
@@ -4505,9 +4597,25 @@
             "jp": "御蔵改",
             "en": "Mikura Kai"
         },
+        "618": {
+            "jp": "Perth改",
+            "en": "Perth Kai"
+        },
         "619": {
             "jp": "Grecale改",
             "en": "Grecale Kai"
+        },
+        "621": {
+            "jp": "神州丸",
+            "en": "Shinshuu Maru"
+        },
+        "625": {
+            "jp": "秋霜",
+            "en": "Akishimo"
+        },
+        "626": {
+            "jp": "神州丸改",
+            "en": "Shinshuu Maru Kai"
         },
         "678": {
             "jp": "日振改",
@@ -4524,6 +4632,10 @@
         "681": {
             "jp": "Samuel B.Roberts改",
             "en": "Samuel B. Roberts Kai"
+        },
+        "684": {
+            "jp": "平戸改",
+            "en": "Hirato Kai"
         },
         "685": {
             "jp": "福江改",
@@ -4559,7 +4671,15 @@
         },
         "693": {
             "jp": "L.d.S.D.d.Abruzzi改",
-            "en": "Duca degli Abruzzi Kai"
+            "en": "Abruzzi Kai"
+        },
+        "695": {
+            "jp": "秋霜改",
+            "en": "Akishimo Kai"
+        },
+        "696": {
+            "jp": "Atlanta改",
+            "en": "Atlanta Kai"
         },
         "893": {
             "jp": "Janus改",
