@@ -172,8 +172,8 @@ const getExpected = (exped, fleet) => {
 
 let startTime = new Date();
 console.log(`Expedition ID filter: ${expedIdFilter}`)
-// AND id = 320751?
-client.query(`SELECT * FROM expedition WHERE expedid > 0 ${expedIdFilter ? `AND expedid = ${expedIdFilter}` : ""} ORDER by ID DESC LIMIT ${limit}`, [], (err, data) => {
+// ID filter indicates start of visible stats submissions
+client.query(`SELECT * FROM expedition WHERE id >= 2457000 AND expedid > 0 ${expedIdFilter ? `AND expedid = ${expedIdFilter}` : ""} ORDER by ID DESC LIMIT ${limit}`, [], (err, data) => {
     let endTime = new Date();
     client.end();
     let entries = data.rows;
@@ -186,13 +186,13 @@ client.query(`SELECT * FROM expedition WHERE expedid > 0 ${expedIdFilter ? `AND 
     aloop: for (let row of entries) {
         const {expedid, fleet, hqxp, items, resources, result, shipxp} = row
         if(shipxp[0] == 0) continue; // Cancelled
-        resultCount[result]++
         
         for(const ship of fleet) {
             if(!shipdata[ship.id]) {
                 console.warn("Unknown ship " + ship.id);
                 continue aloop;
             }
+            if(!ship.visibleStats) continue aloop;
             for(const equip of ship.equips) {
                 if(equip > 0 && !eqdata[equip]) {
                     console.warn("Unknown equip " + equip);
@@ -200,6 +200,7 @@ client.query(`SELECT * FROM expedition WHERE expedid > 0 ${expedIdFilter ? `AND 
                 }
             }
         }
+        resultCount[result]++
 
         const exped = expeditions.find(k => toInt(k.id) == expedid) || undefined
         if(exped == undefined) {
@@ -286,6 +287,7 @@ client.query(`SELECT * FROM expedition WHERE expedid > 0 ${expedIdFilter ? `AND 
         if(!expectedResources.every((v, i) => v == resources[i]))
             console.log(`Toku: ${tokuCount}, Normal: ${normalCount}, T89: ${t89Count}, T2: ${t2Count}, improv ${improveCount}, Kinu: ${bonusShipCount} GS: ${isGs} - ID: ${row.id} - Exped: ${expedid}: ${expectedResources.join(",")} -> ${resources.join(",")}`)
     }
+    // console.log(data.rows.find(k => k.id == 1926548).fleet)
     console.log(`Failed/Normal/GS: ${resultCount.join("/")}`)
     console.log(`Error matrix:`)
     console.log(Utils.createTable(
@@ -302,7 +304,7 @@ function getStats(fleet) {
         const data = shipdata[ship.id]
         return data.type == stype[id]
     })
-    const addImprovements = (ship, item, kind) => {
+    const getImprovements = (ship, item, kind) => {
         const type2 = eqdata[item[0]].type
         let stars = ship.improvements[item[1]]
         if(stars == -1) stars = 0;
@@ -403,13 +405,11 @@ function getStats(fleet) {
                 return 0;
         }
     }
-    const toTotalValue = (shipkind, equipkind, e = []) => 
-        Math.floor(fleet.map((ship) => ship.stats[shipkind]
-            + (equipkind == "ASW" ? ship.kyouka[4] : 0)
+    const toTotalValue = (shipkind, equipkind) => 
+        Math.floor(fleet.map((ship) => ship.visibleStats[shipkind]
             + ship.equips.map((item, ind) => [item, ind])
                          .filter(item => item[0] > 0)
-                         // .filter((item) => e.indexOf(eqdata[item[0]].type) < 0)
-                         .map((item) => (eqdata[item[0]][equipkind] || 0) + addImprovements(ship, item, equipkind)) // TODO improvements
+                         .map((item) => getImprovements(ship, item, equipkind))
                          .reduce((previous, current) => previous + current, 0)
         ).reduce((previous, current) => previous + current, 0))
     
@@ -423,7 +423,7 @@ function getStats(fleet) {
     }).length
     const flagship = fleet[0], flagshipLv = flagship.lvl, flagshipStype = shipdata[flagship.id].type;
     const totalLv = fleet.map(k => k.lvl).reduce((a, b) => a + b);
-    const firePower = toTotalValue("fp", "FP"), AA = toTotalValue("aa", "AA", [10, 11, 41]), ASW = toTotalValue("as", "ASW", [10, 11, 41]), LOS = toTotalValue("ls", "LOS", [10, 11, 41]), drumShips = fleet.filter(ship => ship.equips.find(k => k == 75)).length, drum = fleet.map(ship => ship.equips.filter(k => k == 75).length).reduce((a, b) => a + b);
+    const firePower = toTotalValue("fp", "FP"), AA = toTotalValue("aa", "AA"), ASW = toTotalValue("as", "ASW"), LOS = toTotalValue("ls", "LOS"), drumShips = fleet.filter(ship => ship.equips.find(k => k == 75)).length, drum = fleet.map(ship => ship.equips.filter(k => k == 75).length).reduce((a, b) => a + b);
     const shipNum = fleet.length
     return {
         totalLv, flagshipLv, flagshipStype, shipNum,
