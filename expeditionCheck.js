@@ -31,9 +31,9 @@ const client = new Client(dblogin);
 client.connect();
 
 const toInt = (id) => {
-    if(id.match(/[A-B]\d/))
+    if (id.match(/[A-B]\d/))
         return (id.charCodeAt(0) - 65) * 10 + 99 + parseInt(id[1])
-    if(id.match(/[D]\d/))
+    if (id.match(/[D]\d/))
         return (id.charCodeAt(0) - 65) * 10 + 100 + parseInt(id[1])
     // A1 = 100; A2 = 101 ... B1 = 110, ... B4 = 114, D1 = 131, are you serious?
     return parseInt(id)
@@ -307,69 +307,80 @@ function getStats(fleet) {
         switch (kind) {
             // https://github.com/KC3Kai/KC3Kai/blob/master/src/library/objects/Gear.js
             case "LOS":
-                switch(type2) {
+                switch (type2) {
                     case 12: // Small radar
-                        modifier = 1.25; break;
+                        modifier = 1.25;
+                        break;
                     case 13: // Large radar
-                        modifier = 1.4; break;
+                        modifier = 1.4;
+                        break;
                     case 9: // Recon plane
                     case 10: // Seaplane recon
                     case 49: // LB Recon
                     case 59: // Jet Recon
                     case 94: // Recon (II)
-                        modifier = 1.2; break;
+                        modifier = 1.2;
+                        break;
                     case 11: // Seaplane bomber
-                        modifier = 1.15; break;
+                        modifier = 1.15;
+                        break;
                 }
                 return modifier * Math.sqrt(stars);
             case "AA":
-                switch(type2) {
+                switch (type2) {
                     case 6: // carrier-based fighter
-                        modifier = 0.2; break;
+                        modifier = 0.2;
+                        break;
                     case 7: // fighter bomber (dive bomber with AA stat)
                     case 57: // jet bomber
-                        modifier = 0.25; break;
+                        modifier = 0.25;
+                        break;
                     case 45: // seaplane fighter
                         // seaplane bomber no AA bonus found yet, but found DV & LoS bonus
-                        modifier = 0.2; break;
+                        modifier = 0.2;
+                        break;
                     case 48: // LB fighter or LB interceptor
-                        modifier = 0.2; break;
+                        modifier = 0.2;
+                        break;
                 }
                 return modifier * stars;
             case "FP":
-                switch(type2) {
-					case 1: // Small Cal. Main
-					case 101: // Small Cal. Main
-						modifier = 0.5; break;
-					case 2: // Medium Cal. Main
-					case 18: // Type 3 Shell
-					case 19: // AP Shell
-					case 21: // AA Machine Gun
-					case 29: // Searchlight
-					case 42: // Large Searchlight
-					case 36: // AA Fire Director
-					case 37: // Anti-Ground Rocket
-					case 3: // Large Cal. Main
-                        modifier = 1; break;
-                        
+                switch (type2) {
+                    case 1: // Small Cal. Main
+                    case 101: // Small Cal. Main
+                        modifier = 0.5;
+                        break;
+                    case 2: // Medium Cal. Main
+                    case 18: // Type 3 Shell
+                    case 19: // AP Shell
+                    case 21: // AA Machine Gun
+                    case 29: // Searchlight
+                    case 42: // Large Searchlight
+                    case 36: // AA Fire Director
+                    case 37: // Anti-Ground Rocket
+                    case 3: // Large Cal. Main
+                        modifier = 1;
+                        break;
+
                     case 104: // Custom type
                         return 0.2 * stars;
-					case 4: // Secondary
-						// 0.2 per star for green HA guns,
-						// 0.3 per star for yellow guns,
-						// modifier = this.master().api_type[3] === 16 ? 0.2 : 0.3;
+                    case 4: // Secondary
+                        // 0.2 per star for green HA guns,
+                        // 0.3 per star for yellow guns,
+                        // modifier = this.master().api_type[3] === 16 ? 0.2 : 0.3;
                         // return modifier * stars;
                         return 0.3 * stars;
-                    
-					case 8: // Torpedo Bomber
-					case 58: // Jet Torpedo Bomber
-						return 0.2 * stars;
-					case 14: // Sonar
-					case 40: // Large Sonar
-						modifier = 0.75; break;
-					case 15: // Depth Charge (Projector)
-						modifier = (type2 == 15 && [226, 227].indexOf(item[0]) > -1) ? 0 : 0.75;
-						break;
+
+                    case 8: // Torpedo Bomber
+                    case 58: // Jet Torpedo Bomber
+                        return 0.2 * stars;
+                    case 14: // Sonar
+                    case 40: // Large Sonar
+                        modifier = 0.75;
+                        break;
+                    case 15: // Depth Charge (Projector)
+                        modifier = (type2 == 15 && [226, 227].indexOf(item[0]) > -1) ? 0 : 0.75;
+                        break;
                 }
                 return modifier * Math.sqrt(stars);
 
