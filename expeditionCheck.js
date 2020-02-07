@@ -80,7 +80,7 @@ const getExpected = (exped, fleet) => {
         case 100: // 兵站強化任務
             return flagshipLv >= 5 && shipNum >= 4 && (DE + DD) >= 3
         case 101: // 海峡警備行動
-            return flagshipLv >= 20 && shipNum >= 4 && (DE + DD) >= 4 && (AA >= 70 && ASW >= 180) && totalLv >= 110
+            return flagshipLv >= 20 && shipNum >= 4 && (DE + DD) >= 4 && (AA >= 70 && ASW >= 180)
         case 102: // 長時間対潜警戒
             return flagshipLv >= 35 && shipNum >= 5 && (CL >= 1 && (DE + DD) >= 3 || hasFleetEscortForce) && (AA >= 90 && ASW >= 280 && LOS >= 60) && totalLv >= 107
         case 103: // 南西方面連絡線哨戒
@@ -172,6 +172,7 @@ const getExpected = (exped, fleet) => {
 
 let startTime = new Date();
 console.log(`Expedition ID filter: ${expedIdFilter}`)
+// AND id = 320751?
 client.query(`SELECT * FROM expedition WHERE expedid > 0 ${expedIdFilter ? `AND expedid = ${expedIdFilter}` : ""} ORDER by ID DESC LIMIT ${limit}`, [], (err, data) => {
     let endTime = new Date();
     client.end();
@@ -288,8 +289,11 @@ client.query(`SELECT * FROM expedition WHERE expedid > 0 ${expedIdFilter ? `AND 
     console.log(`Failed/Normal/GS: ${resultCount.join("/")}`)
     console.log(`Error matrix:`)
     console.log(Utils.createTable(
-        ["", "Fail", "Success"],
-        [["Fail", ...errorMatrix[0]], ["Success", ...errorMatrix[1]]]
+        ["Reality v", "Expected >"],
+        [
+            ["", "Fail", "Success"],
+            ["Fail", ...errorMatrix[0]], 
+            ["Success", ...errorMatrix[1]]]
     ))
     if(expedIdFilter > 0) console.log(minStats)
 });
@@ -306,6 +310,17 @@ function getStats(fleet) {
         let modifier = 0;
         switch (kind) {
             // https://github.com/KC3Kai/KC3Kai/blob/master/src/library/objects/Gear.js
+            case "ASW":  // Not entirely verified
+                    if([14, 15, 40].includes(type2))
+                    modifier = 1;
+                // Torpedo Bomber, 0.2 per star (used by Nishisonic/UnexpectedDamage)
+                if([8, 58].includes(type2))
+                    return 0.2 * stars;
+                // Autogyro or Helicopter
+                // weaker than "O Type Observation Autogyro Kai Ni" (asw 11) changed to 0.2?
+                if(type2 === 25)
+                    return (eqdata[item[0]].ASW > 10 ? 0.3 : 0.2) * stars;
+                    return modifier * Math.sqrt(stars);
             case "LOS":
                 switch (type2) {
                     case 12: // Small radar
@@ -390,6 +405,7 @@ function getStats(fleet) {
     }
     const toTotalValue = (shipkind, equipkind, e = []) => 
         Math.floor(fleet.map((ship) => ship.stats[shipkind]
+            + (equipkind == "ASW" ? ship.kyouka[4] : 0)
             + ship.equips.map((item, ind) => [item, ind])
                          .filter(item => item[0] > 0)
                          // .filter((item) => e.indexOf(eqdata[item[0]].type) < 0)
