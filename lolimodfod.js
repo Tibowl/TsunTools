@@ -65,12 +65,12 @@ client.query(`SELECT * FROM lolimodfod ORDER BY id`, [], (err, data) => {
         //if(entry.modids.filter(id => [162,499].indexOf(id) == -1).length > 0) continue;
 
         // Count filter
-        if(types.length != 1) continue;
+        if(types.length != 2) continue;
 
         // Same ctype only
         if(entry.modids.map(id => shipdata[id].sclass).filter(sc => sc != shipdata[entry.modids[0]].sclass).length > 0) continue
 
-        let lvl = entry.modlvls.map(lvl => Math.floor(lvl / 10)+"X").join(",");
+        let lvl = entry.modlvls.map((lvl, ind) => (shipdata[entry.modids[ind]].nameJP.includes("改") ? "K" : "B") + (Math.floor(entry.modlvls[ind] / 10)*10) +"~" + (Math.floor(entry.modlvls[ind] / 10) * 10 +9)).join(",");
         //let lvl = entry.modlvls.join(",");
         if(stats[lvl] == undefined) stats[lvl] = {
             "hp": [0, 0],

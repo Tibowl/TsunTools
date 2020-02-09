@@ -1793,12 +1793,12 @@
         "362": {
             "icon": 16,
             "jp": "5inch連装両用砲(集中配備)",
-            "en": "5inch連装両用砲(集中配備)"
+            "en": "5inch Twin Dual-purpose Gun Mount (Concentrated Deployment)"
         },
         "363": {
             "icon": 16,
             "jp": "GFCS Mk.37+5inch連装両用砲(集中配備)",
-            "en": "GFCS Mk.37+5inch連装両用砲(集中配備)"
+            "en": "GFCS Mk.37 + 5inch Twin Dual-purpose Gun Mount (Concentrated Deployment)"
         },
         "501": {
             "icon": 1,
@@ -2308,12 +2308,12 @@
         "602": {
             "icon": 16,
             "jp": "深海5inch連装両用砲(集中配備)",
-            "en": "深海5inch連装両用砲(集中配備)"
+            "en": "Abyssal 5inch Twin Dual-purpose Gun Mount (Concentrated Deployment)"
         },
         "603": {
             "icon": 11,
             "jp": "深海対空レーダーMark.III+FCS",
-            "en": "深海対空レーダーMark.III+FCS"
+            "en": "Abyssal Air Radar Mark.III + FCS"
         }
     },
     "ships": {
@@ -4680,6 +4680,14 @@
         "696": {
             "jp": "Atlanta改",
             "en": "Atlanta Kai"
+        },
+        "893": {
+            "jp": "Janus改",
+            "en": "Janus Kai"
+        },
+        "1496": {
+            "jp": "Colorado改",
+            "en": "Colorado Kai"
         }
     }
 }

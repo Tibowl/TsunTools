@@ -77,3 +77,4 @@ config/dblogin.json
 config/exped.json
 *.arff
 *.html
+friendfleet.txt
