@@ -54,7 +54,7 @@ global.gimmick = require(`${global.currentDir}/config/gimmick.json`)
 
 
 // Check if all ships in historical fleets stuff exist
-for (let fleet in historicalFleets) 
+for (let fleet in historicalFleets)
     for(let ship of historicalFleets[fleet])
         if(typeof ship == 'string' ? Object.values(idtobasename).indexOf(ship) < 0 : idtobasename[ship] == undefined) {
             console.warn(`\x1b[33m!!! Unknown ship ${ship} in ${fleet} historicals!\x1b[0m`);
@@ -114,7 +114,7 @@ client.query(`SELECT * FROM abnormaldamage WHERE map = $1 AND edgeid = ANY($2) O
         idobj[entry.ship.id] = idobj[entry.ship.id] || {};
         const postcapPower = entry.ship.postcapPower;
         const lowPower = entry.damageinstance.actualDamage / entry.ship.rAmmoMod + 0.7 * entry.enemy.armor;
-        const highPower = lowPower + 0.6 * (entry.enemy.armor - 1);
+        const highPower = (entry.damageinstance.actualDamage + 1) / entry.ship.rAmmoMod + 0.7 * entry.enemy.armor + 0.6 * Math.floor(entry.enemy.armor - 1);
         const lowMod = lowPower/postcapPower || 1;
         const highMod = highPower/postcapPower || 999;
 
@@ -122,7 +122,7 @@ client.query(`SELECT * FROM abnormaldamage WHERE map = $1 AND edgeid = ANY($2) O
         idobj[entry.ship.id].max = (idobj[entry.ship.id].max || 999) < highMod ? (idobj[entry.ship.id].max || 999) : highMod;
         idobj[entry.ship.id].count = (idobj[entry.ship.id].count || 0) + 1;
     }
-    
+
     // Generate summary
     console.log(`==== Unexpected damage in ${map} / node ${node} ====`);
     console.log(counter + " Samples");
