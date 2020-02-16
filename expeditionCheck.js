@@ -60,7 +60,7 @@ const getExpected = (exped, fleet) => {
     // Refueled?
     if (fleet.find(k => k.ammo[0] < k.ammo[1] || k.fuel[0] < k.fuel[1])) return false
 
-    switch (id) {
+    switch (exped) {
         // 鎮守府海域
         case 1: // 練習航海
             return shipNum >= 2
