@@ -1800,6 +1800,21 @@
             "jp": "GFCS Mk.37+5inch連装両用砲(集中配備)",
             "en": "GFCS Mk.37 + 5inch Twin Dual-purpose Gun Mount (Concentrated Deployment)"
         },
+        "364": {
+            "icon": 5,
+            "jp": "甲標的 丁型改(蛟龍改)",
+            "en": "Type D Kouhyouteki Kai (Kouryuu Kai)"
+        },
+        "365": {
+            "icon": 13,
+            "jp": "一式徹甲弾改",
+            "en": "Type 1 AP Shell Kai"
+        },
+        "366": {
+            "icon": 1,
+            "jp": "12.7cm連装砲D型改三",
+            "en": "12.7cm Twin Gun Mount Model D Kai 3"
+        },
         "501": {
             "icon": 1,
             "jp": "5inch単装砲",
@@ -4609,6 +4624,18 @@
             "jp": "神州丸",
             "en": "Shinshuu Maru"
         },
+        "622": {
+            "jp": "夕張改二",
+            "en": "Yuubari Kai Ni"
+        },
+        "623": {
+            "jp": "夕張改二特",
+            "en": "Yuubari Kai Ni Toku"
+        },
+        "624": {
+            "jp": "夕張改二丁",
+            "en": "Yuubari Kai Ni D"
+        },
         "625": {
             "jp": "秋霜",
             "en": "Akishimo"
@@ -4616,6 +4643,10 @@
         "626": {
             "jp": "神州丸改",
             "en": "Shinshuu Maru Kai"
+        },
+        "627": {
+            "jp": "敷波改二",
+            "en": "Shikinami Kai Ni"
         },
         "678": {
             "jp": "日振改",
