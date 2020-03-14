@@ -61,7 +61,7 @@ function getBaseId(mid) {
 
 function isScratch(damage, health) {
     health = Math.max(0, health);
-    return ((damage >= Math.floor(health * 0.06)) && (damage <= Math.floor((health*0.06 + (health-1)*0.08))));
+    return damage >= Math.floor(health * 0.06) && damage <= Math.max(0, Math.floor((health*0.06 + (health-1)*0.08)));
 }
 
 function formatNum(num) {
@@ -85,7 +85,7 @@ let edgesToNode = Object.keys(edges["World " + map]).filter((edge) => {
 const client = new Client(dblogin);
 client.connect();
 
-client.query(`SELECT * FROM spattack WHERE time = 'yasen' AND map = $1 AND node = ANY($2) AND (ship->>'id')::int = $3 AND (misc->>'enemy')::int = $4 AND (misc->>'formation') IS NOT NULL`, [map, edgesToNode, ship, enemy], (err, data) => {
+client.query(`SELECT * FROM spattack WHERE id > 22366229 time = 'yasen' AND map = $1 AND node = ANY($2) AND (ship->>'id')::int = $3 AND (misc->>'enemy')::int = $4 AND (misc->>'formation') IS NOT NULL`, [map, edgesToNode, ship, enemy], (err, data) => {
     if(err) {
         console.log(err);
         client.end();
