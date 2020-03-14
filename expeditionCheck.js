@@ -50,8 +50,8 @@ const stype = [
  */
 const getExpected = (exped, fleet) => {
     const {
-        totalLv, flagshipLv, flagshipStype, shipNum,
-        DE, DD, CL, CV, CVL, CVB, AV, CA, SS, SSV, BBV, AS, CVE, CT,
+        totalLv, flagshipLv, flagshipStype, flagshipASW, shipNum,
+        DE, DD, CL, CLT, CT, CV, CVB, CVL, CVE, AV, LHA, CA, CAV, SS, SSV, BB, FBB, BBV, AS, AR, AO, 
         AA, ASW, LOS, FP,
         drumShips, drum
     } = getStats(fleet);
@@ -127,18 +127,18 @@ const getExpected = (exped, fleet) => {
         case 23: // 航空戦艦運用演習
             return flagshipLv >= 50 && shipNum >= 6 && (BBV >= 2 && DD >= 2) && totalLv >= 200
         case 24: // 北方航路海上護衛
-            return flagshipLv >= 50 && shipNum >= 6 && (flagshipStype === 3 && (DE + DD) >= 4) && totalLv >= 200
+            return flagshipLv >= 50 && shipNum >= 6 && (flagshipStype === stype[3] && (DE + DD) >= 4) && totalLv >= 200
         // 南西海域
         case 41: // ブルネイ泊地沖哨戒
             return flagshipLv >= 30 && shipNum >= 3 && (DE + DD) >= 3 && (FP >= 60 && AA >= 80 && ASW >= 210) && totalLv >= 100
         case 42: // ミ船団護衛(一号船団)
             return flagshipLv >= 45 && shipNum >= 4 && (CL >= 1 && (DE + DD) >= 2 || isFleetEscortForce) && totalLv >= 200
         case 43: // ミ船団護衛(二号船団)
-            return flagshipLv >= 55 && shipNum >= 6 && (((flagshipStype === 7 && flagship.max.taisen > 0) && (DE >= 2 || DD >= 2)) || (flagshipStype === 7 && CL === 1 && DD >= 4)) && (FP >= 500 && ASW >= 280) && totalLv >= 406
+            return flagshipLv >= 55 && shipNum >= 6 && (((flagshipStype === stype[7] && flagshipASW > 0) && (DE >= 2 || DD >= 2)) || (flagshipStype === stype[7] && CL === 1 && DD >= 4)) && (FP >= 500 && ASW >= 280) && totalLv >= 300
         case 44: // 航空装備輸送任務
             return flagshipLv >= 35 && shipNum >= 6 && ((CV + CVL + CVB + AV) >= 2 && AV >= 1 && CL >= 1 && DD >= 2) && ASW >= 200 && (drumShips >= 3 && drum >= 6) && totalLv >= 210
         case 45: // ボーキサイト船団護衛
-            return flagshipLv >= 50 && shipNum >= 5 && (flagshipStype === 7 && (DE + DD) >= 4) && (AA >= 240 && ASW >= 300 && LOS >= 180) && totalLv >= 240
+            return flagshipLv >= 50 && shipNum >= 5 && (flagshipStype === stype[7] && (DE + DD) >= 4) && (AA >= 240 && ASW >= 300 && LOS >= 180) && totalLv >= 240
         // 西方海域
         case 25: // 通商破壊作戦
             return flagshipLv >= 25 && shipNum >= 4 && (CA >= 2 && DD >= 2)
@@ -155,11 +155,11 @@ const getExpected = (exped, fleet) => {
         case 31: // 海外艦との接触
             return flagshipLv >= 60 && shipNum >= 4 && (SS + SSV) >= 4 && totalLv >= 200
         case 32: // 遠洋練習航海
-            return flagshipLv >= 5 && shipNum >= 3 && (flagshipStype === 21 && DD >= 2)
+            return flagshipLv >= 5 && shipNum >= 3 && (flagshipStype === stype[21] && DD >= 2)
         case 131: // 西方海域偵察作戦
-            return flagshipLv >= 50 && shipNum >= 5 && (flagshipStype === 16 && (DE + DD) >= 4) && (AA >= 240 && ASW >= 240 && LOS >= 300) && totalLv >= 229
+            return flagshipLv >= 50 && shipNum >= 5 && (flagshipStype === stype[16] && (DE + DD) >= 4) && (AA >= 240 && ASW >= 240 && LOS >= 300) && totalLv >= 229
         case 132: // 西方潜水艦作戦
-            return flagshipLv >= 55 && shipNum >= 5 && (flagshipStype === 20 && (SS + SSV) >= 3 && (CL + DD) >= 1)
+            return flagshipLv >= 55 && shipNum >= 5 && (flagshipStype === stype[20] && (SS + SSV) >= 3 && (CL + DD) >= 1)
         // 南方海域
         case 33: // 前衛支援任務
             return shipNum >= 2 && DD >= 2
@@ -176,7 +176,7 @@ const getExpected = (exped, fleet) => {
         case 39: // 遠洋潜水艦作戦
             return flagshipLv >= 3 && shipNum >= 5 && (AS >= 1 && (SS + SSV) >= 4) && totalLv >= 180
         case 40: // 水上機前線輸送
-            return flagshipLv >= 25 && shipNum >= 6 && (flagshipStype === 3 && AV >= 2 && DD >= 2) && totalLv >= 150
+            return flagshipLv >= 25 && shipNum >= 6 && (flagshipStype === stype[3] && AV >= 2 && DD >= 2) && totalLv >= 150
         default:
             return undefined
     }
@@ -197,6 +197,7 @@ client.query(`SELECT * FROM expedition WHERE id >= 2457000 AND expedid > 0 ${exp
 
     aloop: for (let row of entries) {
         const {expedid, fleet, hqxp, items, resources, result, shipxp} = row
+        if(row.id == 2957438) console.log(row.fleet)
         if(shipxp[0] == 0) continue; // Cancelled
 
         for(const ship of fleet) {
@@ -357,21 +358,24 @@ function getStats(fleet) {
                          .reduce((previous, current) => previous + current, 0)
         ).reduce((previous, current) => previous + current, 0))
 
-    const DE  = filter(1).length,  DD  = filter(2).length,  CL  = filter(3).length,  CA = filter(5).length,
-          CVL = filter(7).length,  BBV = filter(10).length, CV  = filter(11).length, SS = filter(13).length,
-          SSV = filter(14).length, AV  = filter(16).length, CVB = filter(18).length, AS = filter(20).length,
-          CT  = filter(21).length;
+    //"", "DE", "DD", "CL", "CLT", "CA", "CAV", "CVL", "FBB", "BB", "BBV", "CV", "XBB", "SS", "SSV", "AP", "AV", "LHA", "CVB", "AR", "AS", "CT", "AO"
+    const DE  = filter(1).length,  DD  = filter(2).length,  CL  = filter(3).length,  CLT = filter(4).length,
+          CA  = filter(5).length,  CAV = filter(6).length,  CVL = filter(7).length,  FBB = filter(8).length,
+          BB  = filter(9).length,  BBV = filter(10).length, CV  = filter(11).length, XBB = filter(12).length,
+          SS = filter(13).length,  SSV = filter(14).length, AP  = filter(15).length, AV  = filter(16).length,
+          LHA = filter(17).length, CVB = filter(18).length, AR  = filter(19).length, AS  = filter(20).length,
+          CT  = filter(21).length, AO  = filter(22).length;
     const CVE = filter(7).filter(ship => {
         const data = shipdata[ship.id];
         return data.ASW > 0;
     }).length
-    const flagship = fleet[0], flagshipLv = flagship.lvl, flagshipStype = shipdata[flagship.id].type;
+    const flagship = fleet[0], flagshipLv = flagship.lvl, flagshipStype = shipdata[flagship.id].type, flagshipASW = shipdata[fleet[0].id].ASW;
     const totalLv = fleet.map(k => k.lvl).reduce((a, b) => a + b);
     const FP = toTotalValue("fp", "FP"), AA = toTotalValue("aa", "AA"), ASW = toTotalValue("as", "ASW"), LOS = toTotalValue("ls", "LOS"), drumShips = fleet.filter(ship => ship.equips.find(k => k == 75)).length, drum = fleet.map(ship => ship.equips.filter(k => k == 75).length).reduce((a, b) => a + b);
     const shipNum = fleet.length
     return {
-        totalLv, flagshipLv, flagshipStype, shipNum,
-        DE, DD, CL, CV, CVL, CVB, AV, CA, SS, SSV, BBV, AS, CVE, CT,
+        totalLv, flagshipLv, flagshipStype, flagshipASW, shipNum,
+        DE, DD, CL, CLT, CT, CV, CVB, CVL, CVE, AV, LHA, CA, CAV, SS, SSV, BB, FBB, BBV, AS, AR, AO, 
         AA, ASW, LOS, FP,
         drumShips, drum
     };
