@@ -64,6 +64,22 @@ for (let i = 1; i <= 4; i++) {
 }
 
 let counter = 0;
+const ranks = {
+    "E": -1,
+    "D": 0,
+    "C": 1,
+    "B": 2,
+    "A": 3,
+    "S": 4
+}
+const rank_letters = {
+    "-1": "E",
+    0: "D",
+    1: "C",
+    2: "B",
+    3: "A",
+    4: "S"
+}
 let edgesToNode = node => edges["World " + map][node][1];
 
 console.log(`Node unlock gimmick in ${map}`);
@@ -87,8 +103,10 @@ client.query(`SELECT * FROM gimmick WHERE id > 118949 AND map = $1`, [map], (err
             const lastBattle = entry.battles[entry.battles.length - 1];
             const phase = lastBattle.api_m1;
             const node = edgesToNode(lastBattle.node);
+            const rank = ranks[lastBattle.rank];
             if (!obj[difficulty][phase]) obj[difficulty][phase] = {};
-            obj[difficulty][phase][node] = true;
+            if (!obj[difficulty][phase][node]) obj[difficulty][phase][node] = 4;
+            obj[difficulty][phase][node] = Math.min(obj[difficulty][phase][node], rank);
         }
         else if (entry.trigger == 'nodeAB') {
             const lastDef = entry.lbasdef[entry.lbasdef.length - 1];
@@ -103,6 +121,10 @@ client.query(`SELECT * FROM gimmick WHERE id > 118949 AND map = $1`, [map], (err
         for (let phase in obj[difficulty]) {
             const nodes = Object.keys(obj[difficulty][phase]);
             console.log(`Phase ${phase}: ${nodes} ${abobj[difficulty][phase] ? "(LB Defense Required)" : ""}`);
+            for (let node in obj[difficulty][phase]) {
+                const rank = obj[difficulty][phase][node];
+                console.log(`Node ${node}: ${rank_letters[rank]}-Rank`)
+            }
         }
         console.log();
     };
