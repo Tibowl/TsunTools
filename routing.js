@@ -13,7 +13,7 @@ https://github.com/KC3Kai/kc3-translations/blob/master/data/en/stype.json`);
 
 if (!fs.existsSync(`${global.currentDir}/config/edges.json`)) {
     console.error(`Missing config/edges.json, grab them from:
-https://github.com/KC3Kai/KC3Kai/blob/update-cumulative/src/data/edges.json`);
+https://github.com/KC3Kai/KC3Kai/blob/develop/src/data/edges.json`);
     return;
 }
 
@@ -93,7 +93,7 @@ const client = new Client(dblogin);
 client.connect();
 
 let startTime = new Date();
-client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' : 'eventworld'} WHERE map = $1 AND edgeid[array_length(edgeid, 1)] = ANY($2) ORDER BY id`, [map, edgesFromNode], (err, data) => {
+client.query(`SELECT * FROM ${parseInt(map.split("-")[0]) < 10 ? 'normalworld' : 'eventworld'} WHERE id > 10730000 and map = $1 AND edgeid[array_length(edgeid, 1)] = ANY($2) ORDER BY id`, [map, edgesFromNode], (err, data) => {
     let endTime = new Date();
     if(err) {
         console.log(err);

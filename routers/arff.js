@@ -26,10 +26,10 @@ exports.getType = (entry, edgeNames) => {
             .concat(entry.fleet1.length + entry.fleet2.length)
             .concat(entry.currentmaphp)
             .concat(["?","C","E","M","H"][entry.difficulty])
-            .concat(entry.nodeinfo.amountOfNodes)
+            .concat(entry.nodeinfo.amountOfNodes || entry.nodeinfo.amountofnodes)
             .concat(entry.gaugenum)
 
-    sample = sample.concat([1,2,3,4].map((Cn) => getLoS(entry, Cn)))
+        sample = sample.concat([1,2,3,4].map((Cn) => getLoS(entry, Cn)))
         .concat(entry.cleared)
         .concat(entry.sortiedfleet)
         .concat(entry.fleetspeed);

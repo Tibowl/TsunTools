@@ -1815,6 +1815,111 @@
             "jp": "12.7cm連装砲D型改三",
             "en": "12.7cm Twin Gun Mount Model D Kai 3"
         },
+        "367": {
+            "icon": 10,
+            "jp": "Swordfish(水上機型)",
+            "en": "Swordfish (Seaplane Model)"
+        },
+        "368": {
+            "icon": 10,
+            "jp": "Swordfish Mk.III改(水上機型)",
+            "en": "Swordfish Mk.III Kai (Seaplane Model)"
+        },
+        "369": {
+            "icon": 10,
+            "jp": "Swordfish Mk.III改(水上機型/熟練)",
+            "en": "Swordfish Mk.III Kai (Seaplane Model / Skilled)"
+        },
+        "370": {
+            "icon": 10,
+            "jp": "Swordfish Mk.II改(水偵型)",
+            "en": "Swordfish Mk.II Kai (Reconnaissance Seaplane Model)"
+        },
+        "371": {
+            "icon": 10,
+            "jp": "Fairey Seafox改",
+            "en": "Fairey Seafox Kai"
+        },
+        "372": {
+            "icon": 8,
+            "jp": "天山一二型甲",
+            "en": "Tenzan Model 12A"
+        },
+        "373": {
+            "icon": 46,
+            "jp": "天山一二型甲改(空六号電探改装備機)",
+            "en": "Tenzan Model 12A Kai (w/ Type 6 Airborne Radar Kai)"
+        },
+        "374": {
+            "icon": 46,
+            "jp": "天山一二型甲改(熟練/空六号電探改装備機)",
+            "en": "Tenzan Model 12A Kai (Skilled / w/ Type 6 Airborne Radar Kai)"
+        },
+        "375": {
+            "icon": 6,
+            "jp": "XF5U",
+            "en": "XF5U"
+        },
+        "376": {
+            "icon": 5,
+            "jp": "533mm五連装魚雷(後期型)",
+            "en": "533mm Quintuple Torpedo Mount (Late Model)"
+        },
+        "377": {
+            "icon": 17,
+            "jp": "RUR-4A Weapon Alpha改",
+            "en": "RUR-4A Weapon Alpha Kai"
+        },
+        "378": {
+            "icon": 17,
+            "jp": "対潜短魚雷(試作初期型)",
+            "en": "Lightweight ASW Torpedo (Initial Test Model)"
+        },
+        "379": {
+            "icon": 16,
+            "jp": "12.7cm単装高角砲改二",
+            "en": "12.7cm Single High-angle Gun Mount Kai Ni"
+        },
+        "380": {
+            "icon": 16,
+            "jp": "12.7cm連装高角砲改二",
+            "en": "12.7cm Twin High-angle Gun Mount Kai Ni"
+        },
+        "381": {
+            "icon": 3,
+            "jp": "16inch三連装砲 Mk.6",
+            "en": "16inch Triple Gun Mount Mk.6"
+        },
+        "382": {
+            "icon": 16,
+            "jp": "12cm単装高角砲E型",
+            "en": "12cm Single High-angle Gun Mount Model E"
+        },
+        "383": {
+            "icon": 5,
+            "jp": "後期型53cm艦首魚雷(8門)",
+            "en": "Late Model 53cm Bow Torpedo Mount (8 tubes)"
+        },
+        "384": {
+            "icon": 42,
+            "jp": "後期型潜水艦搭載電探&逆探",
+            "en": "Late Model Submarine Radar & Passive Radiolocator"
+        },
+        "385": {
+            "icon": 3,
+            "jp": "16inch三連装砲 Mk.6 mod.2",
+            "en": "16inch Triple Gun Mount Mk.6 mod.2"
+        },
+        "386": {
+            "icon": 2,
+            "jp": "6inch三連装速射砲 Mk.16",
+            "en": "6inch Triple Rapid Fire Gun Mount Mk.16"
+        },
+        "387": {
+            "icon": 2,
+            "jp": "6inch三連装速射砲 Mk.16 mod.2",
+            "en": "6inch Triple Rapid Fire Gun Mount Mk.16 mod.2"
+        },
         "501": {
             "icon": 1,
             "jp": "5inch単装砲",
@@ -2329,6 +2434,36 @@
             "icon": 11,
             "jp": "深海対空レーダーMark.III+FCS",
             "en": "Abyssal Air Radar Mark.III + FCS"
+        },
+        "604": {
+            "icon": 1,
+            "jp": "深海5inch連装砲A型",
+            "en": "Abyssal 5inch Twin Gun Mount Model A"
+        },
+        "605": {
+            "icon": 42,
+            "jp": "深海潜水艦搭載電子兵装",
+            "en": "Abyssal Submarine Electronic Armament"
+        },
+        "606": {
+            "icon": 16,
+            "jp": "深海5inch単装高角砲改二",
+            "en": "Abyssal 5inch Single High-angle Gun Mount Kai Ni"
+        },
+        "607": {
+            "icon": 16,
+            "jp": "深海5inch連装高角砲改二",
+            "en": "Abyssal 5inch Twin High-angle Gun Mount Kai Ni"
+        },
+        "608": {
+            "icon": 11,
+            "jp": "深海夜間航空作戦装備",
+            "en": "Abyssal Night Operation Aviation Equipment"
+        },
+        "609": {
+            "icon": 2,
+            "jp": "深海16inch三連装砲 Mk6",
+            "en": "Abyssal 16inch Triple Gun Mount Mk.6"
         }
     },
     "ships": {
@@ -4480,6 +4615,10 @@
             "jp": "黒潮改二",
             "en": "Kuroshio Kai Ni"
         },
+        "569": {
+            "jp": "沖波改二",
+            "en": "Okinami Kai Ni"
+        },
         "570": {
             "jp": "平戸",
             "en": "Hirato"
@@ -4552,6 +4691,10 @@
             "jp": "金剛改二丙",
             "en": "Kongou Kai Ni C"
         },
+        "592": {
+            "jp": "比叡改二丙",
+            "en": "Hiei Kai Ni C"
+        },
         "594": {
             "jp": "赤城改二",
             "en": "Akagi Kai Ni"
@@ -4580,6 +4723,14 @@
             "jp": "Colorado",
             "en": "Colorado"
         },
+        "602": {
+            "jp": "South Dakota",
+            "en": "South Dakota"
+        },
+        "603": {
+            "jp": "Hornet",
+            "en": "Hornet"
+        },
         "604": {
             "jp": "De Ruyter",
             "en": "De Ruyter"
@@ -4592,6 +4743,10 @@
             "jp": "伊400改",
             "en": "I-400 Kai"
         },
+        "607": {
+            "jp": "伊47改",
+            "en": "I-47 Kai"
+        },
         "609": {
             "jp": "De Ruyter改",
             "en": "De Ruyter Kai"
@@ -4599,6 +4754,10 @@
         "611": {
             "jp": "御蔵",
             "en": "Mikura"
+        },
+        "612": {
+            "jp": "屋代",
+            "en": "Yashiro"
         },
         "613": {
             "jp": "Perth",
@@ -4608,9 +4767,17 @@
             "jp": "Grecale",
             "en": "Grecale"
         },
+        "615": {
+            "jp": "Helena",
+            "en": "Helena"
+        },
         "616": {
             "jp": "御蔵改",
             "en": "Mikura Kai"
+        },
+        "617": {
+            "jp": "屋代改",
+            "en": "Yashiro Kai"
         },
         "618": {
             "jp": "Perth改",
@@ -4619,6 +4786,10 @@
         "619": {
             "jp": "Grecale改",
             "en": "Grecale Kai"
+        },
+        "620": {
+            "jp": "Helena改",
+            "en": "Helena Kai"
         },
         "621": {
             "jp": "神州丸",
@@ -4647,6 +4818,46 @@
         "627": {
             "jp": "敷波改二",
             "en": "Shikinami Kai Ni"
+        },
+        "628": {
+            "jp": "Fletcher改 Mod.2",
+            "en": "Fletcher Kai Mod.2"
+        },
+        "629": {
+            "jp": "Fletcher Mk.II",
+            "en": "Fletcher Mk.II"
+        },
+        "630": {
+            "jp": "Gotland andra",
+            "en": "Gotland Andra"
+        },
+        "631": {
+            "jp": "薄雲",
+            "en": "Usugumo"
+        },
+        "632": {
+            "jp": "有明",
+            "en": "Ariake"
+        },
+        "634": {
+            "jp": "迅鯨",
+            "en": "Jingei"
+        },
+        "636": {
+            "jp": "伊47",
+            "en": "I-47"
+        },
+        "637": {
+            "jp": "第四号海防艦",
+            "en": "Kaiboukan No.4"
+        },
+        "639": {
+            "jp": "迅鯨改",
+            "en": "Jingei Kai"
+        },
+        "641": {
+            "jp": "松",
+            "en": "Matsu"
         },
         "678": {
             "jp": "日振改",
@@ -4711,6 +4922,30 @@
         "696": {
             "jp": "Atlanta改",
             "en": "Atlanta Kai"
+        },
+        "697": {
+            "jp": "South Dakota改",
+            "en": "South Dakota Kai"
+        },
+        "700": {
+            "jp": "薄雲改",
+            "en": "Usugumo Kai"
+        },
+        "701": {
+            "jp": "第四号海防艦改",
+            "en": "Kaiboukan No.4 Kai"
+        },
+        "702": {
+            "jp": "松改",
+            "en": "Matsu Kai"
+        },
+        "703": {
+            "jp": "有明改",
+            "en": "Ariake Kai"
+        },
+        "704": {
+            "jp": "Hornet改",
+            "en": "Hornet Kai"
         },
         "893": {
             "jp": "Janus改",
