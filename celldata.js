@@ -23,8 +23,12 @@ if(process.argv.length <= 2) {
     return;
 }
 
+async function main() {
+    
 const client = new Client(dblogin);
-client.connect();
+console.log("connecting")
+await client.connect();
+console.log("connected")
 
 let map = process.argv[2];
 let startTime = new Date();
@@ -61,3 +65,6 @@ client.query(`SELECT * FROM celldata WHERE map=$1 ORDER BY amountofnodes DESC LI
         }},0,4));
     });
 });
+
+}
+main().catch(console.error)

@@ -65,12 +65,17 @@ client.query(`SELECT * FROM lolimodfod ORDER BY id`, [], (err, data) => {
         //if(entry.modids.filter(id => [162,499].indexOf(id) == -1).length > 0) continue;
 
         // Count filter
-        if(types.length != 2) continue;
+        if(types.length != 1) continue;
 
         // Same ctype only
         if(entry.modids.map(id => shipdata[id].sclass).filter(sc => sc != shipdata[entry.modids[0]].sclass).length > 0) continue
 
-        let lvl = entry.modlvls.map((lvl, ind) => (shipdata[entry.modids[ind]].nameJP.includes("改") ? "K" : "B") + (Math.floor(entry.modlvls[ind] / 10)*10) +"~" + (Math.floor(entry.modlvls[ind] / 10) * 10 +9)).join(",");
+        let lvl = [entry.modlvls
+            .sort((a,b) => a-b)
+            .reduce((a,b) => a+b)]
+            .map(lvl => (Math.floor(lvl / 10)*10) +"~" + (Math.floor(lvl / 10) * 10 +9))
+            //.map((lvl, ind) => (shipdata[entry.modids[ind]].nameJP.includes("改") ? "K" : "B") + (Math.floor(entry.modlvls[ind] / 10)*10) +"~" + (Math.floor(entry.modlvls[ind] / 10) * 10 +9))
+            .join(",")
         //let lvl = entry.modlvls.join(",");
         if(stats[lvl] == undefined) stats[lvl] = {
             "hp": [0, 0],
@@ -92,7 +97,7 @@ client.query(`SELECT * FROM lolimodfod ORDER BY id`, [], (err, data) => {
     }
     for (let row in stats) {
         let stat = stats[row];
-        if(stat.luck[1] >= 10)
+        if(stat.luck[1] >= 50)
             console.log(`${row.padStart(6)} HP: ${`${stat.hp[0]}/${stat.hp[1]}`.padStart(8)} (${percentage(stat.hp[0]/stat.hp[1],1).padStart(6)}) - ASW: ${`${stat.asw[0]}/${stat.asw[1]}`.padStart(8)} (${percentage(stat.asw[0]/stat.asw[1],1).padStart(6)}) - LCK: ${`${stat.luck[0]}/${stat.luck[1]}`.padStart(8)} (${percentage(stat.luck[0]/stat.luck[1],1).padStart(6)})`)
     }
 	client.end();
